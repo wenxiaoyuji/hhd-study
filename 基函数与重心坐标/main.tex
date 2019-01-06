@@ -1,0 +1,337 @@
+% !Mode:: "TeX:UTF-8"
+\documentclass{article}
+\input{en_preamble.tex}
+\input{xecjk_preamble.tex}
+\setCJKmainfont{STKaiti} % 如果请替换为本地系统有的字体
+%中文断行
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+\begin{document}
+\title{重心坐标与基函数}
+%\date{\today}
+\maketitle
+%\tableofcontents
+%\newpage
+\section{重心坐标}
+重心坐标是构造基函数的基础，所以首先引入重心坐标。
+
+数学中，重心坐标是由单形（如三角形或四面体等）顶点定义的坐标。经典的重心坐标是一种定义在“多边形”上的坐标，而不局限于具体的坐标系。“多边形”内的点由“多边形”各顶点线性表出，组合系数便是重心坐标。下面定义重心坐标，以平面上的多边形为例。
+
+令 $P$ 是一个平面上的 $n$ 边形，其顶点记为 $\lbrace X_i\rbrace_{i=0,\cdots,n}$,~$n\ge 2$,且以逆时针顺序标记。对任意的 $X\in P$,定义函数 $\lambda _i(x):P\longrightarrow R,~i=0,\cdots,n$.若
+
+$$
+X=\sum_{i=0}^n \lambda _i(X)X_i,~\sum_{i=0}^n\lambda _i(X)\equiv 1.
+$$
+则称 $\lambda _i(X)$ 为齐次坐标，此外，若 $\lambda _i(X)\ge 0,~i=0,\cdots,n$,则称 $\lambda _i(X)$ 为重心坐标。显然可以将上式看作一个以 $\lambda _i(X)$ 为未知量，$X$ 和 $X_i$ 为已知量的非齐次线性方程组，即重心坐标是方程组的非负解。当 $n=2$ 时，
+$$
+\begin{cases}
+\lambda _0(X)x_0+\lambda _1(X)x_1+\lambda _2(X)x_2=x,\\
+\lambda _0(X)y_0+\lambda _1(X)y_1+\lambda _2(X)y_2=y,\\
+\lambda _0(X)+\lambda _1(X)+\lambda _2(X)=1.
+\end{cases}
+$$
+即
+$$
+\begin{bmatrix}
+x_0 & x_1 & x_2\\
+y_0 & y_1 & y_2\\
+1 & 1 & 1\\
+\end{bmatrix}
+\begin{bmatrix}
+\lambda _0(X)\\
+\lambda _1(X)\\
+\lambda _2(X)\\
+\end{bmatrix}=\begin{bmatrix}
+x\\
+y\\
+1\\
+\end{bmatrix}.
+$$
+由 $\begin{bmatrix}
+x_0 & x_1 & x_2\\
+y_0 & y_1 & y_2\\
+1 & 1 & 1\\
+\end{bmatrix}$ 的非奇异可知，$\lambda _0(X)$,$\lambda _1(X)$,$\lambda _2(X)$ 存在唯一。
+
+重心坐标的几何意义：
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{./figures/2.png}
+\caption{}
+\end{figure}
+
+任取 $P\in \triangle_{X_0 X_1 X_2}$,延长 $X_2 P$ 使之与 $X_0 X_1$ 相交于点 $Q$,则
+$$
+\lambda _2=\frac {PQ}{X_2 P}=\frac{S_{\triangle PX_0 X_1}}{S_{\triangle X_0 X_1 X_2}}.
+$$
+
+类似的可以定义一维，高维的重心坐标，定义高维重心坐标时，顶点要遵循右手法则。
+
+\section{单纯形上的基函数}
+区间 $[x_0,x_1]$ 上 $p$ 次拉格朗日基函数的构造
+
+首先构造一维区间 $[x_0,x_1]$ 上的重心坐标，
+$$
+\begin{cases}
+\lambda _0(x)x_0+\lambda _1(x)x_1=x,\\
+\lambda _0(x)+\lambda _1(x)=1.
+\end{cases}
+$$
+则，
+$$
+\begin{bmatrix}
+x_0 & x_1\\
+1 & 1\\
+\end{bmatrix}
+\begin{bmatrix}
+\lambda _0(x)\\
+\lambda _1(x)\\
+\end{bmatrix}=\begin{bmatrix}
+x\\
+1\\
+\end{bmatrix},
+$$
+因此，
+$$
+\lambda _0(x)=\frac{\begin{vmatrix}
+x & x_1 \\
+1 & 1 \\
+\end{vmatrix}}{\begin{vmatrix}
+x_0 & x_1 \\
+1 & 1 \\
+\end{vmatrix}}=\frac{x-x_1}{x_0-x_1}=\frac{x_1-x_0}{x_1-x_0},
+\quad\lambda _1(x)=\frac{\begin{vmatrix}
+x_0 & x \\
+1 & 1
+\end{vmatrix}}{\begin{vmatrix}
+x_0 & x_1 \\
+1 & 1
+\end{vmatrix}}=\frac{x_0-x}{x_0-x_1}=\frac{x-x_0}{x_1-x_0}.
+$$
+$\forall x\in [x_0,x_1]$,则 $\lambda _0(x)\ge 0$,$\lambda _1(x)\ge 0$.并且
+$$
+\begin{cases}
+\lambda _0 (x_0)=1,\lambda _0 (x_1)=0,\\
+\lambda _1 (x_0)=0,\lambda _1 (x_1)=1.\\
+\end{cases}
+$$
+易知, $\lambda_0, \lambda_1$ 都是关于 $x$ 的线性函数(这里指一次函数)。
+
+重心坐标关于 $x$ 的导数为：
+$$
+\frac{\mathrm d \lambda_0}{\mathrm dx} = -\frac{1}{x_1 - x_0},\quad 
+\frac{\mathrm d \lambda_1}{\mathrm dx} = \frac{1}{x_1 - x_0}.
+$$
+区间 $[x_0, x_1]$ 上的 $p\geq 1$ 次基函数共有 
+$n_{dof} = p+1$ 个，
+
+其插值基函数的计算公式如下:
+$$
+\phi_{m,n} = \frac{p^p}{m!n!}\prod_{l_0 = 0}^{m - 1}
+(\lambda_0 - \frac{l_0}{p}) \prod_{l_1 = 0}^{n-1}(\lambda_1 -
+\frac{l_1}{p}).
+$$
+其中 $m\geq 0$, $n\geq 0$, 且 $m+n=p$,即 $\phi_{m,n}$ 是一个 $m+n=p$ 次多项式。
+
+由 $\frac{x_1 - x}{x_1 - x_0}=\frac{l_0}{p}$ 得到
+$$
+x=x_1-\frac{l_0}{p} (x_1 - x_0)=(1-\frac{l_0}{p})x_1 + \frac{l_0}{p} x_0.
+$$
+因为 $(1-\frac{l_0}{p}) + \frac{l_0}{p} =1$,故 $x\in [x_0,x_1].$
+
+由 $\frac{x - x_0}{x_1 - x_0}=\frac{l_1}{p}$ 得到
+$$
+x=x_0+\frac{l_1}{p} (x_1 - x_0)=\frac{l_1}{p})x_1 + (1-\frac{l_1}{p})x_0.
+$$
+因为 $(1-\frac{l_1}{p}) + \frac{l_1}{p} = 1$,故 $x\in [x_0,x_1].$
+
+因此插值基函数过节点 $x_1,\frac{(p-1)x_1 + x_0}{p},\frac{(p-2)x_1 + 2x_0}{p},\frac{(p-3)x_1 + 3x_0}{p},\cdots,x_0$，即把区间 $[x_0,x_1]$ 均匀等分，步长为 $\frac{(x_1-x_0)}{p}$.
+
+这个 $p$ 次插值基函数实际上就是这种形式的
+$$
+l_k(x)=\frac{(x-x_0)\cdots(x-x_{k-1})(x-x_{k+1})\cdots(x - x_p)}{(x_k-x_0)\cdots(x_k-x_{k-1})(x_k-x_{k+1})\cdots(x_k-x_p)}
+$$
+拉格朗日插值基函数。
+
+$p$ 次基函数的面向数组的计算
+构造向量：
+$$
+P = ( \frac{1}{0!},  \frac{1}{1!}, \frac{1}{2!}, \cdots, \frac{1}{p!})
+$$
+
+构造矩阵：
+$$
+A :=                                                                            
+\begin{pmatrix}  
+1  &  1  \\
+\lambda_0 & \lambda_1\\                                             
+\lambda_0 - \frac{1}{p} & \lambda_1 - \frac{1}{p}\\   
+\vdots & \vdots \\                                                     
+\lambda_0 - \frac{p - 1}{p} & \lambda_1 - \frac{p - 1}{p}
+\end{pmatrix}                                                                   
+$$ 
+对 $A$ 的每一列做累乘运算, 并左乘由 $P$ 形成的对角矩阵, 得矩阵:
+
+$$
+B = \mathrm{diag}(P)
+\begin{pmatrix}
+1 & 1\\
+\lambda_0 & \lambda_1\\
+\prod_{l=0}^{1}(\lambda_0 - \frac{l}{p}) & \prod_{l=0}^{1}(\lambda_1 - \frac{l}{p})\\
+\vdots & \vdots \\
+\prod_{l=0}^{p-1}(\lambda_0 - \frac{l}{p}) & \prod_{l=0}^{p-1}(\lambda_1 - \frac{l}{p}) 
+\end{pmatrix}
+$$
+
+易知, 只需从 $B$ 的每一列中各选择一项相乘(要求二项次数之和为 $p$), 再乘以 $p^p$ 即可得到相应的基函数, 其中取法共有 
+
+$$
+n_{dof} = {p+1}
+$$
+
+构造指标矩阵：
+
+$$
+I = \begin{pmatrix}
+p  & 0 \\ p-1 & 1 \\ \vdots & \vdots \\ 0 & p 
+\end{pmatrix}
+$$
+由$I$可知一共有$\begin{matrix} p+1 \\ \overbrace{ 1+1+\cdots+1 }
+\end{matrix}$种选择。
+
+\section{三角形单元}
+下面考虑二维三角形单元的重心坐标。
+
+给定三角形单元 $\tau$, 其三个顶点 $\mathbf x_0 :=(x_0,y_0)$, $\mathbf x_1 :=(x_1,y_1)$ 和 $\mathbf x_2 :=(x_2,y_2)$ 逆时针排列, 且不在同一条直线上, 那么向量 $\overrightarrow{\mathbf x_0\mathbf x_1}$ 和 $\overrightarrow{\mathbf x_0\mathbf x_2}$ 是线性无关的. 这等价于矩阵
+
+$$
+A = 
+\begin{pmatrix}
+x_0 & x_1 & x_2 \\
+y_0 & y_1 & y_2 \\
+1   & 1   & 1 
+\end{pmatrix}
+$$
+
+非奇异. 
+又 $|A|\ne 0$,故任给一点 $\mathbf{x}:=(x,y)\in\tau$,下面的线性方程组
+
+$$
+A 
+\begin{pmatrix}
+\lambda_0 \\
+\lambda_1\\
+\lambda_2  
+\end{pmatrix}
+=\begin{pmatrix}
+x \\
+y\\
+1  
+\end{pmatrix}
+$$
+
+有唯一的一组解 $\lambda_0,\lambda_1,\lambda_2$. 
+因此对任意二维点 $\mathbf{x}\in\tau$, 有
+$$
+\begin{cases}
+\lambda _0 x_0+\lambda _1 x_1+\lambda _2 x_2=x,\\
+\lambda _0 y_0+\lambda _1 y_1+\lambda _2 y_2=y,\\
+\lambda _0+ \lambda _1 +\lambda _2 =1.
+\end{cases}
+$$
+故$\lambda _0 (x_0,y_0)+\lambda _1 (x_1,y_1)+\lambda _2 (x_2,y_2)=(x,y)$,
+$$
+\mathbf{x}=\lambda_0(\mathbf{x})\mathbf{x}_0 + \lambda_1(\mathbf{x})\mathbf{x}_1 + \lambda_2(\mathbf{x})\mathbf{x}_2 
+\text{ 且 } \lambda_0(\mathbf{x}) + \lambda_1(\mathbf{x}) + \lambda_2(\mathbf{x}) = 1. 
+$$
+
+$\lambda_0,\lambda_1,\lambda_2$ 称为点 $\mathbf{x}$ 关于点 $\mathbf{x}_0,\mathbf{x}_1$ 和$\mathbf{x}_2$ 的重心坐标. 
+
+易知, $\lambda_0, \lambda_1, \lambda_2$ 都是关于 $\mathbf x$ 的线性函数, 且有
+
+\begin{eqnarray*}
+\lambda_0(\mathbf x_0) = 1,\quad & \lambda_0(\mathbf x_1) = 0,\quad& \lambda_0(\mathbf x_2) = 0\\
+\lambda_1(\mathbf x_0) = 0,\quad & \lambda_1(\mathbf x_1) = 1,\quad& \lambda_1(\mathbf x_2) = 0\\
+\lambda_2(\mathbf x_0) = 0,\quad & \lambda_2(\mathbf x_1) = 0,\quad & \lambda_2(\mathbf x_2) = 1\\
+\end{eqnarray*}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{./figures/3.png}
+\caption{}
+\end{figure}
+
+也可以通过下面的方式计算重心坐标。
+
+设 $\lambda_0 (x,y)=ax+by+c$,则
+$$
+\begin{cases}
+\lambda _0 (x_0,y_0)=ax_0+by_0+c=1,\\
+\lambda _0 (x_1,y_1)=ax_1+by_1+c=0,\\
+\lambda _0 (x_2,y_2)=ax_2+by_2+c=0.\\
+\end{cases}
+$$
+从而可以求出 $a$,$b$,$c$,进而求出 $\lambda _0$.同理可得 $\lambda _1$,$\lambda _2$.
+
+为了考虑变化率的大小和方向，引入梯度。梯度的大小是变化率最大的值，梯度的方向是变化率最大的方向。
+
+$\lambda_0, \lambda_1, \lambda_2$ 关于 $\mathbf x$ 的梯度分别为:
+
+$$
+\begin{aligned}
+\nabla\lambda_0 = \frac{1}{2|\tau|}(\mathbf x_2 - \mathbf x_1)W\\
+\nabla\lambda_1 = \frac{1}{2|\tau|}(\mathbf x_0 - \mathbf x_2)W\\
+\nabla\lambda_2 = \frac{1}{2|\tau|}(\mathbf x_1 - \mathbf x_0)W\\
+\end{aligned}
+$$
+
+其中 
+
+$$
+W = \begin{pmatrix}
+0 & 1\\ -1 & 0 
+\end{pmatrix}
+$$
+三角形单元上的 $p$ 次基函数公式
+
+给定三角形单元上的一个重心坐标 $(\lambda_0, \lambda_1, \lambda_2)$, 所有 $p\geq 1$ 次基函数的计算公式如下:
+
+$$
+\phi_{m,n,k} = \frac{p^p}{m!n!k!}\prod_{l_0 = 0}^{m - 1}
+(\lambda_0 - \frac{l_0}{p}) \prod_{l_1 = 0}^{n-1}(\lambda_1 -
+\frac{l_1}{p}) \prod_{l_2=0}^{k-1}(\lambda_2 - \frac{l_2}{p}).
+$$
+
+其中 $ m\geq 0$, $n\geq 0$, $ k \geq 0$, 且 $m+n+k=p$.
+
+因为$\lambda_0 (x_2,y_2) = 0,\lambda_1 (x_0,y_0) = 0,\lambda_2 (x_1,y_1) = 0$,因此插值基函数一定过节点$(x_0,y_0),(x_1,y_1),(x_2,y_2).$
+因为$\lambda_0 (\frac{x_1+x_2}{2}) = 0,\lambda_1 (\frac{x_0+x_2}{2}) = 0,\lambda_2 (\frac{x_0+x_1}{2}) = 0$,因此插值基函数过节点$(\frac{x_1+x_2}{2},\frac{y_1+y_2}{2}),(\frac{x_0+x_2}{2},\frac{y_0+y_2}{2}),(\frac{x_0+x_1}{2},\frac{y_0+y_1}{2})$
+
+$\cdots$
+即把三角形单元均匀剖分。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\nocite{*}
+\bibliography{ref}
+\end{document}
+

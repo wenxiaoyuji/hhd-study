@@ -1,0 +1,289 @@
+% !Mode:: "TeX:UTF-8"
+\documentclass{article}
+\input{en_preamble.tex}
+\input{xecjk_preamble.tex}
+\setCJKmainfont{STKaiti} % 如果请替换为本地系统有的字体
+%中文断行
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+\begin{document}
+\title{第一章$\qquad$线性代数的背景}
+%\date{\today}
+\maketitle  %定义时间和标题
+%\tableofcontents
+%\newpage
+\section{}
+\subsection{矩阵}
+在这一章中，向量空间是定义在复数域上的，$\mathrm{C}^{n\times m}$ 表示由所有定义在$C$上的$n\times m$的矩阵构成的向量空间。
+
+加法：$C=A+B$，这里的$A$，$B$和$C$都$\in\mathrm{C}^{n\times m}$，即$c_{ij}=a_{ij}+b_{ij}$.
+
+数乘：$C=\alpha A$，即$c_{ij}=\alpha a_{ij}$.
+
+乘法：$C=AB$，这里A$\in\mathrm{C}^{n\times m}$，B$\in\mathrm{C}^{m\times p}$，C$\in\mathrm{C}^{n\times p}$，即$c_{ij}=\sum_{k=1}^m a_{ik}b_{kj}$.
+
+$a_{*j}$表示矩阵A的第j列，$a_{i*}$表示矩阵A的第i行。
+$A^H$表示矩阵A的转置共轭矩阵，即$A^H=\bar{A}^H=\bar{A^T}$.
+\subsection{方阵与特征值}
+I表示单位矩阵，若CA=AC=I，则称矩阵C为矩阵A的逆矩阵$A^{-1}$.
+
+$det(A)=a_{11}A_{11}+a_{11}A_{11}+\cdots+(-1)^{1+n}A_{1n}=\sum_{j=1}^n (-1)^{j+1} a_{1j}det(A_{1j}) $  
+
+如果$det(A)=0$，则称矩阵A是奇异的，否则称A为非奇异的。
+
+$det(AB)=det(A)det(B)$
+
+$det(A^T)=det(A)$
+
+$det(\alpha A)=\alpha ^n det(A)$
+
+$det(\bar{A})=\overline{det(A)}$
+
+$det(I)=1$
+
+\subsubsection{定义}
+设A是n阶方阵，如果存在数$\lambda$和非零n维列向量u，使得$Au=\lambda u$成立，则称$\lambda$是A的一个特征值,非零向量u称为矩阵A的对应于特征值$\lambda$的特征向量。
+
+$p_A(\lambda)=det(A-\lambda I)$称为矩阵A的特征多项式，$\lambda $是矩阵A的特征值当且仅当$det(A-\lambda I)\equiv p_A(\lambda)=0$，即$\lambda $是矩阵A的特征多项式的一个根。
+
+矩阵A的谱是指A的所有特征值组成的集合，记为$\sigma (A)$。
+
+矩阵A是奇异的当且仅当A有一个特征值为0。
+
+\subsubsection{命题}
+矩阵A是非奇异的当且仅当A可逆。
+
+矩阵A的谱半径等于矩阵A的特征值的模的最大值，记为$\rho (A)$，矩阵A的迹等于A的所有对角线元素的和，记为$tr(A)=\sum_{i=1}^n a_{ii}$，也等于A的所有特征值的和。
+
+\subsubsection{命题}
+如果$\lambda$是矩阵A的特征值，那么$\bar\lambda$是矩阵$A^H$的特征值。
+
+如果存在一个非零列向量$x$使得$Ax=\lambda x$，则称$\lambda $为一个右特征值，x称为矩阵A的特征值$\lambda $的右特征向量。
+如果存在一个非零列向量$y$使得$yA=y\lambda$，则称$\lambda $为一个左特征值，y称为矩阵A的特征值$\lambda $的左特征向量。
+
+$Au=\lambda u$，$v^HA=\lambda v^H$.
+
+$u^HA^H=\bar{\lambda}u^H$，$A^Hv=\bar{\lambda}v$.
+
+
+
+\subsection{矩阵范数}
+设矩阵A$\in\mathrm{C}^{n\times m}$，定义矩阵A的范数$\parallel A\parallel _{pq}=max\frac{\parallel Ax\parallel _p}{\parallel x\parallel _q}$，这里$x\neq 0$，$x\in\mathrm{C}^{m}$.
+范数满足下面的性质：
+
+$\parallel A\parallel\ge 0$，$\forall A\in\mathrm{C}^{n\times m}$，并且$\parallel A\parallel = 0$当且仅当A=0.
+
+$\parallel\alpha A\parallel = |\alpha|\parallel A\parallel$，$\forall A\in\mathrm{C}^{n\times m}$，$\forall\alpha\in\mathrm{C}$.
+
+$\parallel A+B\parallel\leqslant\parallel A\parallel+\parallel B\parallel$，$\forall A,B\in\mathrm{C}^{n\times m}$.
+
+当$q=p$时的范数称为p-范数，有$\parallel AB\parallel _p\leqslant\parallel A\parallel _p\parallel B\parallel_p$。
+
+对于方阵A，有$\parallel A^k\parallel_p\leqslant\parallel A\parallel ^k _p$，如果$A^k$的p-范数小于1，那么$A^k$收敛到0。
+
+矩阵A的Frobenius范数定义为$(\sum_{j=1}^m\sum_{i=1}^n |a_{ij}|^2)^{1/2}$。
+
+$\parallel A\parallel_1 = max\sum_{i=1}^n |a_{ij}|$，j=1,2,$\cdots$，m.
+
+$\parallel A\parallel_\infty= max\sum_{j=1}^m |a_{ij}|$，i=1,2,$\cdots$，n.
+
+$\parallel A\parallel_2=[\rho(A^HA)]^{1/2}=[\rho(AA^H)]^{1/2}$
+
+$\parallel A\parallel_F=[tr(A^HA)]^{1/2}=[tr(AA^H)]^{1/2}$
+
+设A$\in\mathrm{C}^{n\times m}$，$A^HA$的特征值是非负的，令q=min(n,m)，$A^HA$的q个非负特征值的算术平方根叫作A的奇异值。$\parallel A\parallel_2$等于矩阵A的最大的奇异值，记为$\sigma_1$.
+
+\subsection{子空间，秩和核}
+向量集G={$a_1,a_2,\cdots,a_q$}的所有线性组合是一个向量子空间，叫做G的线性扩张。
+
+$span{G}=span{a_1,a_2,\cdots,a_q}={z\in\mathrm{C}^n|z=\sum_{i=1}^q{\alpha _i a_i},{\alpha _i}_{i=1,2,\cdots q}\in\mathrm{C}^n}$.
+如果$a_1,a_2,\cdots,a_q$是线性无关的，那么$a_1,a_2,\cdots,a_q$叫做$span{G}$的一组基。
+
+给定两个向量子空间$S_1$和$S_2$，它们的和$S=S_1+S_2$也是一个向量子空间，定义为$S_1$中的所有向量和$S_2$中的所有向量的和。两个向量子空间的交集还是一个子空间，如果交集为{0}，则称$S_1$与$S_2$的和为直和，记为$S=S_1\bigoplus S_2$.当S等于$C^n$时，$\forall x\in C^n$，存在唯一的向量$x_1\in S_1$和$x_2\in S_2$，使得$x=x_1+x_2$，即分解是唯一的.
+
+算子$P:x\longrightarrow x_1$，是线性的，并且有$P^2=P$，即是幂等的。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%函数$y(x)$的变分定义为$\delta y=y_1(x)-y(x)$，其中$y_1(x)$是“靠近”$y(x)$的一个函数，即$\delta y$是同一自变量$x$处相邻函数的函数值之差。
+
+%注意：
+
+%$(\delta y)'=y'_1(x)-y'(x)=\delta y'$
+
+%$(\delta y)^n=\delta y^n $
+%\subsection{泛函的变分}
+%定义泛函$J[y(x)]=\int_{a}^{b} f(x,y,y')\mathrm{d}x$，则增量$\bigtriangleup J=\int_{a}^{b}[f(x,y+\delta y,y'+\delta y')-f(x,y,y')]\mathrm{d}x=\int_{a}^{b}[\frac{\partial f}{\partial y}\delta y + \frac{\partial f}{\partial y'}\delta y'+\frac{1}{2}\frac{\partial^2 f}{\partial^2 y}(\delta y)^2+\frac{\partial^2 f}{\partial y\,\partial y'}\delta y\delta y'+\frac{1}{2}\frac{\partial^2 f}{\partial y'^2}(\partial y')^2+\cdots]\mathrm{d}x$
+
+%舍弃掉$\delta y$和$\delta y'$二次项及以上的高次项，得到关于$\delta y$和$\delta y'$一次项的和，称为$J[y(X)]=\int_{a}^{b} f(x,y,y')\mathrm{d}x$的一阶变分，简称为泛函的变分，即$\delta J=\int_{a}^{b}(\frac{\partial f}{\partial y}\delta y + \frac{\partial f}{\partial y'}\delta y')\mathrm{d}x$。
+%\subsection{泛函变分的基本运算法则}
+%泛函变分运算法则与微分运算法则基本相同
+
+%$(\delta F_1 +F_2)=\delta F_1 +\delta F_2$
+
+%$(\delta F)^n=nF^n-1\delta F$
+
+%$(\delta F_1 \cdot F_2)=F_2\delta F_1+F_1\delta F_2$
+
+%$(\delta (\frac{F_1}{F_2})=\frac{1}{F^2_2}(F_2\delta F_1-F_1\delta F_2)$
+
+%$\delta\int_{a}^{b}F\mathrm{d}x=\int_{a}^{b}\delta F\mathrm{d}x$
+
+
+
+
+
+
+
+%如果将泛函取极值时的函数定义为$y(x)$，并且定义与函数$y(x)$相靠近的函数为$y(x,\varepsilon)$,记为$y(x,\varepsilon)=y(x)+\varepsilon\eta(x)$,$\varepsilon$是一个参数。
+%函数$y(x)$的变分定义为$\delta y=\eta(x)\mathrm{d}\varepsilon$,由此可得$\delta y'=\eta ^\prime(x)\mathrm{d}\varepsilon$
+%定义泛函$J[y(X)]=\int_{a}^{b} F(x,y,y')\mathrm{d}x$的变分为$\delta J=\int_{a}^{b}(\frac{\partial F}{\partial y}\delta y + \frac{\partial F}{\partial y'}\delta y')\mathrm{d}x$。
+
+%\subsection{泛函变分举例}
+%计算泛函$J[y(x)]=\int_{-1}^{1} (y'e^7 +xy^2)\mathrm{d}x$的变分
+
+
+%$\delta J[y(x)]=\delta\int_{-1}^{1}(y'e^7+xy^2)\mathrm{d}x=\int_{-1}^{1}(2xy\delta y+e^7\delta y')\mathrm{d}x=\int_{-1}^{1}(2xy\delta y)\mathrm{d}x+\int_{-1}^{1}e^7\mathrm{d}\delta y=\int_{-1}^{1}(2xy\delta y)\mathrm{d}x
+%$，最后一步利用上边界上函数变分为0。
+
+
+
+
+
+
+%\begin{equation}
+%-\nabla \cdot (\beta\nabla u) = f(x,y),\,\ (x,y)\in \Omega
+%\end{equation}
+%Dilichlet 边界条件
+
+%\begin{equation}
+%u(x,y) = g(x,y),\,\ (x,y)\in \partial \Omega
+%\end{equation}
+%\subsection{符号}
+%\begin{tabular}{ |l|l| }   
+%\hline   
+%\multicolumn{2}{|c|}{符号说明} \\   
+%\hline
+%符号 & 含义\\
+%\hline
+%$\Omega$ & 二维长方形区域 \\
+%\hline
+%$nx$ & $x$ 方向剖分的段数 \\
+%\hline
+%$ny$ & $y$ 方向剖分的段数 \\
+%\hline
+%$hx$ &  $x$ 方向每段的长度\\
+%\hline
+%$hy$ &  $y$ 方向每段的长度 \\
+%\hline
+%$\mu$ & $the \,\ viscosity \,\ coefficient$ \\
+%\hline
+%$k$ & $the \,\ permeability \,\ tensor$ \\
+%\hline 
+%$NC$ & 代表 $cell$ 的个数 \\
+%\hline
+%$NE$ & 代表总的 $edge$ 的个数 \\
+%\hline
+%\end{tabular}
+
+%\section{欧拉—拉格朗日方程}
+%欧拉—拉格朗日方程是泛函极值问题的必要条件，假设$J[y(x)]$的极值问题的解为$y=y(x)$，现在推导这个解所满足的微分方程。
+
+%$\delta J=\int_{a}^{b}(\frac{\partial f}{\partial y}\delta y + \frac{\partial f}{\partial y'}\delta y')\mathrm{d}x=0$，将第二项分部积分得到$\int_{a}^{b}(\frac{\partial f}{\partial y'}\delta y')\mathrm{d}x=\int_{a}^{b}\frac{\partial f}{\partial y'}\mathrm{d}\delta y$，因为$\delta y(a)=0$，$\delta y(b)=0$，所以$\int_{a}^{b}(\frac{\partial f}{\partial y'}\delta y')\mathrm{d}x=-\int_{a}^{b}\delta y\mathrm{d}\frac{\partial f}{\partial y'}$，因此$\delta J=\int_{a}^{b}\frac{\partial f}{\partial y}\delta y\mathrm{d}x-\int_{a}^{b}\delta y\mathrm{d}\frac{\partial f}{\partial y'}=\int_{a}^{b}(\frac{\partial f}{\partial y}-\frac{\mathrm{d}\frac{\partial f}{\partial y'}}{\mathrm{d}x})\delta y\mathrm{d}x=0$，因为对于任何函数$\delta y$都成立，故$\frac{\partial f}{\partial y}-\frac{\mathrm{d}\frac{\partial f}{\partial y'}}{\mathrm{d}x}=0$，这就是欧拉—拉格朗日方程。
+%\begin{equation*}
+%\begin{cases}
+%\begin{aligned}
+%\frac{\mu}{k}\mathbf{u} + \nabla p & = 0 \quad in \,\ \Omega = (0,1)\times (0,1) \\
+%\nabla \cdot \mathbf{u} & = f \quad in \,\ \Omega \\
+%\mathbf {u} & = 0 \quad on \,\ \partial \Omega
+%\end{aligned}
+%\end{cases}
+%\end{equation*}
+
+%且有 \\
+%\begin{equation*}
+%\int_{\Omega}f dxdy = 0
+%\end{equation*}
+
+%记 $u$ 为 $\mathbf{u}$ 在 $x$ 方向的分量，$v$ 为 $\mathbf{u}$ 在 $y$ 方向的分量,则有 \\
+
+%\begin{equation*}
+%\begin{cases}
+%\begin{aligned}
+%\frac{\mu}{k}\cdot u + \partial_x p & = 0 \quad (1) \\
+%\frac{\mu}{k}\cdot v + \partial_y p & = 0 \quad (2) \\
+%\partial_x u + \partial_y v & = f \quad (3)
+%\end{aligned}
+%\end{cases}
+%\end{equation*}
+
+%\section{离散后组装矩阵}
+%利用一阶向前差分把方程变成差分方程，现在从 $edge$ 和 $cell$ 的角度考虑模型。 \\
+
+%对于 $(1)$, 从内部纵向 $edge$ 的角度考虑:
+%我们需要找到内部纵向 $edge$ 所对应的左手边的 $cell$ 和右手边的 $cell$. 左右两边的$cell$ 所对应的 $p$ 分别记为 $p_{l}$、$p_{r}$.$u$ 为 $edge$ 的中点，记为 $u_m$。按照 $mesh$ 里的编号规则排序。\\
+
+%则每条内部边上所对应的差分方程为:
+
+%\begin{equation*}
+%\frac{\mu}{k} \cdot u_m + \frac{p_r - p_l}{hx} = 0
+%\end{equation*}
+
+%对于 $(2)$,从内部横向 $edge$ 的角度考虑:
+%我们需要找到内部横向 $edge$ 所对应的左手边的 $cell$ 和右手边的 $cell$. $cell$ 所对应的 $p$ 与 $(1)$ 中的相同。$v$ 为 $edge$ 的中点，记为 $v_m$。\\
+
+%则每条内部边上所对应的差分方程为:\\
+
+%\begin{equation*}
+%\frac{\mu}{k} \cdot v_m + \frac{p_l - p_r}{hy} = 0
+%\end{equation*}
+
+%对于 $(3)$, 从 $cell$ 的角度考虑:
+%由于单元是四边形单元，我们记单元所对应边的局部编号为[0,1,2,3](StructureQuadMesh.py 里的网格)，第 $i$ 个单元所对应的边记为 $e_{i,0},e_{i,1},e_{i,2},e_{i,3}$。\\
+
+%则 $(3)$ 式第 $i$ 个单元所对应的差分方程为:\\
+
+%\begin{equation*}
+%\frac{u_{e_{i,1}} - u_{e_{i,3}}}{hx} + \frac{v_{e_{i,2}} - v_{e_{i,0}}}{hy} = f_i
+%\end{equation*}
+
+%我们需要生成一个 $(NE+NC)\times(NE+NC)$的系数矩阵，把它看成分块矩阵
+%\begin{equation*}
+%\begin{pmatrix}
+% A_{1,1} & A_{1,2} \\
+%A_{2,1} & A_{2,2}
+%\end{pmatrix}
+%\end{equation*}
+
+%其中 \\
+
+%\begin{equation*}
+%\begin{aligned}
+%A_{1,1} : NE\times NE \\
+%A_{1,2} : NE\times NC \\
+%A_{2,1} : NC\times NE \\
+%A_{2,2} : NC\times NC
+%\end{aligned}
+%\end{equation*}
+
+%$A_{1,1}$ 对应的是 $(1),(2)$ 两式的第一项，即含有 $u,v$ 的项，$A_12$ 对应的是 $(1),(2)$ 两式的第二项。
+
+%\newpage
+%\nocite{*}
+%\bibliography{ref}
+\end{document}
+
