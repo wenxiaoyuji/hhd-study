@@ -13,17 +13,46 @@
 \section{重心坐标}
 重心坐标是构造基函数的基础，所以首先引入重心坐标。知道一个点的重心坐标后，就可以知道它在单元中的位置。
 
-数学中，重心坐标是由单形（如三角形或四面体等）顶点定义的坐标。经典的重心坐标是一种定义在“多边形”上的坐标，而不局限于具体的坐标系。“多边形”内的点由“多边形”各顶点线性表出，组合系数便是重心坐标。下面定义重心坐标，以平面上的多边形为例。
+数学中，重心坐标是由单纯形（如三角形或四面体等）顶点定义的坐标，不局限于具体的坐标系。单纯形中的点由单纯形各顶点线性表出，组合系数便是重心坐标。下面定义重心坐标。
 
-令 $P$ 是一个平面上的 $(n+1)$ 边形，其顶点记为 $\lbrace X_i\rbrace_{i=0,\cdots,n}$,~$n\ge 2$,且以逆时针顺序标记。对任意的 $X\in P$,定义函数 $\lambda _i(x):P\longrightarrow R,~i=0,\cdots,n$.若
+令 $P$ 是一个 $n$ 维空间中的单纯形，其顶点记为 $\lbrace X_i=(x_{i,0},x_{i,1},\cdots ,x_{i,n-1})\rbrace_{i=0,\cdots,n}$,~$n\ge 1$,且满足右手法则（平面上满足逆时针顺序）。对任意的 $X=(x_0 ,x_1,\cdots ,x_{n-1})^T\in P$,定义函数 $\lambda _i(X):P\longrightarrow R,~i=0,\cdots,n$.若
 $$
 X=\sum_{i=0}^n \lambda _i(X)X_i,~\sum_{i=0}^n\lambda _i(X)\equiv 1.
 $$
-则称 $\lambda _i(X)$ 为齐次坐标，$\lambda _0(x),\lambda _1(x),\cdots,\lambda _n(x)$ 中只有 $n$ 个自由量。此外，若 $\lambda _i(X)\ge 0,~i=0,\cdots,n$,则称 $\lambda _i(X)$ 为重心坐标。显然可以将上式看作一个以 $\lambda _i(X)$ 为未知量，$X$ 和 $X_i$ 为已知量的非齐次线性方程组，即重心坐标是方程组的非负解。
+则称 $\lambda _i(X)$ 为齐次坐标，$\lambda _0(x),\lambda _1(x),\cdots,\lambda _n(x)$ 中只有 $n$ 个自由量。此外，若 $\lambda _i(X)\ge 0,~i=0,\cdots,n$,则称 $\lambda _i(X)$ 为重心坐标。显然可以将上式看作一个以 $\lambda _i(X)$ 为未知量，$X$ 和 $X_i$ 为已知量的非齐次线性方程组，那么，
+$$\begin{bmatrix}
+x_{0,0} & x_{1,0} & \cdots & x_{n,0}\\
+x_{0,1} & x_{1,1} & \cdots & x_{n,1}\\
+\vdots & \ddots & \vdots \\
+x_{0,n-1} & x_{1,n-1} & \cdots & x_{n,n-1}\\
+1 & 1 & \cdots & 1\\
+\end{bmatrix}
+\begin{bmatrix}
+\lambda _0 \\
+\lambda _1 \\
+\vdots \\
+\lambda _{n-1} \\
+\lambda _n \\
+\end{bmatrix}=
+\begin{bmatrix}
+x _0 \\
+x _1 \\
+\vdots \\
+x _{n-1} \\
+1 \\
+\end{bmatrix}$$
+
+从而重心坐标是上述方程组的非负解，由系数矩阵 
+$\begin{bmatrix}
+x_{0,0} & x_{1,0} & \cdots & x_{n,0}\\
+x_{0,1} & x_{1,1} & \cdots & x_{n,1}\\
+\vdots & \ddots & \vdots \\
+x_{0,n-1} & x_{1,n-1} & \cdots & x_{n,n-1}\\
+1 & 1 & \cdots & 1\\
+\end{bmatrix}$ 的非奇异可知，$\lambda _0,\lambda _1,\cdots ,\lambda _n$ 存在唯一。
 
 一维的区间$[x_0,x_1]$
 
-任取$P$属于该区间，则
 $$
 \begin{cases}
 \lambda _0(x)x_0+\lambda _1(x)x_1=x,\\
@@ -56,6 +85,8 @@ x_0 & x_1 \\
 \includegraphics[scale=0.7]{./figures/1.png}
 \caption{}
 \end{figure}
+
+任取$P$属于该区间，则
 
 $$\lambda _0 =\frac{PX_1}{X_0 X_1},\quad \lambda _1 =\frac{X_0 P}{X_0 X_1}.$$
 
@@ -100,7 +131,7 @@ y_0 & y_1 & y_2\\
 
 任取 $P\in \triangle_{X_0 X_1 X_2}$,延长 $X_2 P$ 使之与 $X_0 X_1$ 相交于点 $Q$,则
 $$
-\lambda _2=\frac {PQ}{X_2 P}=\frac{S_{\triangle PX_0 X_1}}{S_{\triangle X_0 X_1 X_2}}.
+\lambda _2=\frac {PQ}{X_2 Q}=\frac{S_{\triangle PX_0 X_1}}{S_{\triangle X_0 X_1 X_2}}.
 $$
 
 重心坐标表示 $P$ 在三角形单元内的位置，三角形单元所在的系统平移或者旋转都不会对重心坐标的值产生影响。
@@ -153,17 +184,15 @@ $$
 \lambda _0=\frac {dist(P,X_0 X_1 X_2)}{dist(X_3,X_0 X_1 X_2)}=\frac{V_{P X_0 X_1 X_2}}{V_{X_0 X_1 X_2 X_3}}.
 $$
 
-类似的可以定义高维的重心坐标，定义高维重心坐标时，顶点要遵循右手法则。
-
 \section{Silvester插值多项式}
-这里我们先介绍Silvester插值多项式,再通过Silvester插值多项式构造基函数，以一维区间 $[0,1]$ 上的 $p$ 次多项式为例。
+这里我们先介绍Silvester插值多项式，再通过Silvester插值多项式构造基函数，Silvester插值多项式定义为
 $$
-R_p (N,L)=\begin{cases}
-\frac{1}{p!}\prod_{k=0}^{p-1} (NL-k),~& 1\leqslant p\leqslant N\\
-1,& p=0\\
+R_i (p,\lambda)=\begin{cases}
+\frac{1}{i!}\prod_{k=0}^{i-1} (p\lambda-k),~& 1\leqslant i\leqslant p\\
+1,& i=0\\
 \end{cases}
 $$
-可知这是区间 $[0,1]$ 上的 $p$ 次多项式，其中 $L$ 为 $[0,1]$ 中的插值节点，$N$ 表示区间 $[0,1]$ 的等分数，当 $L=0,1/N,2/N,\cdots ,(p-1)/N$ 时 $\frac{1}{p!}\prod_{k=0}^{p-1} (NL-k) =0$,当 $L=p/N$ 时 $\frac{1}{p!}\prod_{k=0}^{p-1} (NL-k) =1.$
+可知这是关于 $\lambda$ 的 $i$ 次多项式，其中 $\lambda$ 为 $[0,1]$ 中的插值节点，$p$ 表示区间 $[0,1]$ 的等分数，当 $\lambda=0,1/p,2/p,\cdots ,(i-1)/p$ 时 $\frac{1}{i!}\prod_{k=0}^{i-1} (p\lambda-k) =0$,当 $\lambda=i/p$ 时 $\frac{1}{i!}\prod_{k=0}^{i-1} (p\lambda-k) =1.$
 
 利用Silvester插值多项式就可以构造出高次的有限元单元的基函数。增加有限元单元的基函数的次数可以提高精度，但不是次数越高越好，因为如果次数过高，计算的误差积累反而会使精度下降。
 
@@ -199,7 +228,7 @@ x & x_1 \\
 \end{vmatrix}}{\begin{vmatrix}
 x_0 & x_1 \\
 1 & 1 \\
-\end{vmatrix}}=\frac{x-x_1}{x_0-x_1}=\frac{x_1-x_0}{x_1-x_0},
+\end{vmatrix}}=\frac{x-x_1}{x_0-x_1}=\frac{x_1-x}{x_1-x_0},
 \quad\lambda _1(x)=\frac{\begin{vmatrix}
 x_0 & x \\
 1 & 1
@@ -215,7 +244,7 @@ $$
 \lambda _1 (x_0)=0,\quad\lambda _1 (x_1)=1.\\
 \end{cases}
 $$
-易知, $\lambda_0, \lambda_1$ 都是关于 $x$ 的线性函数(这里指一次函数)。
+易知， $\lambda_0, \lambda_1$ 都是关于 $x$ 的线性函数(这里指一次函数)。
 
 也可以通过下面的方式计算重心坐标。
 
@@ -234,23 +263,16 @@ $$
 \frac{\mathrm d \lambda_1}{\mathrm dx} = \frac{1}{x_1 - x_0}.
 $$
 区间 $[x_0, x_1]$ 上的 $p\geq 1$ 次基函数共有 
-$n_{dof} = p+1$ 个，
-
-其 $p$ 次插值基函数的计算公式如下:
-
+$n_{dof} = p+1$ 个，其 $p$ 次插值基函数的计算公式如下:
 $$
-\phi_{m,n}  = \frac{p^p}{m!n!}\prod_{l_0 = 0}^{m - 1}(\lambda_0 - \frac{l_0}{p}) \prod_{l_1 = 0}^{n-1}(\lambda_1 -\frac{l_1}{p})
-= \frac{1}{m!}\prod_{l_0 = 0}^{m - 1}(p\lambda_0 -l_0)\frac{1}{n!}\prod_{l_1 = 0}^{n - 1}(p\lambda_1 -l_1)
+\phi_{m,n}= \frac{1}{m!}\prod_{l_0 = 0}^{m - 1}(p\lambda_0 -l_0)\frac{1}{n!}\prod_{l_1 = 0}^{n - 1}(p\lambda_1 -l_1)
 $$
 即
 $$
 \phi_{m,n}= R_m (p,\lambda_0)R_n (p,\lambda_1).
 $$
 
-其中 $m\geq 0$, $n\geq 0$, 且 $m+n=p$,即 $\phi_{m,n}$ 是一个 $m+n=p$ 次多项式，一次基函数实际上就是区间的重心坐标函数，这里规定:
-$$
- \prod_{l_i=0}^{-1}(\lambda_i - \frac{l_i}{p}) := 1,\quad i=0, 1
-$$
+其中 $m\geq 0$, $n\geq 0$, 且 $m+n=p$,即 $\phi_{m,n}$ 是一个 $p$ 次多项式。
 
 由 $\lambda_0=\frac{x_1 - x}{x_1 - x_0}=\frac{l_0}{p}$ 得到
 $$
@@ -272,9 +294,10 @@ $$
 $$
 l_k(x)=\frac{(x-x_0)\cdots(x-x_{k-1})(x-x_{k+1})\cdots(x - x_p)}{(x_k-x_0)\cdots(x_k-x_{k-1})(x_k-x_{k+1})\cdots(x_k-x_p)}
 $$
-拉格朗日插值基函数。
+拉格朗日插值基函数的特殊化形式。
 
 $p$ 次基函数的面向数组的计算
+
 构造向量：
 $$
 P = ( \frac{1}{0!},  \frac{1}{1!}, \frac{1}{2!}, \cdots, \frac{1}{p!})
@@ -285,26 +308,26 @@ $$
 A :=                                                                            
 \begin{pmatrix}  
 1  &  1  \\
-\lambda_0 & \lambda_1\\                                             
-\lambda_0 - \frac{1}{p} & \lambda_1 - \frac{1}{p}\\   
+p\lambda_0 & p\lambda_1\\                                             
+p\lambda_0 - 1 & p\lambda_1 - 1\\   
 \vdots & \vdots \\                                                     
-\lambda_0 - \frac{p - 1}{p} & \lambda_1 - \frac{p - 1}{p}
+p\lambda_0 - (p - 1) & \lambda_1 - (p - 1)
 \end{pmatrix}                                                                   
 $$ 
-对 $A$ 的每一列做累乘运算, 并左乘由 $P$ 形成的对角矩阵, 得矩阵:
+对 $A$ 的每一列做累乘运算，并左乘由 $P$ 形成的对角矩阵，得矩阵:
 
 $$
 B = \mathrm{diag}(P)
 \begin{pmatrix}
 1 & 1\\
-\lambda_0 & \lambda_1\\
-\prod_{l=0}^{1}(\lambda_0 - \frac{l}{p}) & \prod_{l=0}^{1}(\lambda_1 - \frac{l}{p})\\
+p\lambda_0 & p\lambda_1\\
+\prod_{l=0}^{1}(p\lambda_0 - l) & \prod_{l=0}^{1}(p\lambda_1 - l)\\
 \vdots & \vdots \\
-\prod_{l=0}^{p-1}(\lambda_0 - \frac{l}{p}) & \prod_{l=0}^{p-1}(\lambda_1 - \frac{l}{p}) 
+\prod_{l=0}^{p-1}(p\lambda_0 - l) & \prod_{l=0}^{p-1}(p\lambda_1 - l) 
 \end{pmatrix}
 $$
 
-易知, 只需从 $B$ 的每一列中各选择一项相乘(要求二项次数之和为 $p$), 再乘以 $p^p$ 即可得到相应的基函数, 其中取法共有 
+易知，只需从 $B$ 的每一列中各选择一项相乘(要求二项次数之和为 $p$)，即可得到相应的基函数，其中取法共有 
 
 $$
 n_{dof} = {p+1}
@@ -323,7 +346,7 @@ $$
 \section{三角形单元}
 下面考虑二维三角形单元的重心坐标。
 
-给定三角形单元 $\tau$, 其三个顶点 $X_0 :=(x_0,y_0)$, $X_1 :=(x_1,y_1)$ 和 $X_2 :=(x_2,y_2)$ 逆时针排列, 且不在同一条直线上, 那么向量 $\overrightarrow{X_0 X_1}$ 和 $\overrightarrow{X_0 X_2}$ 是线性无关的. 这等价于矩阵
+给定三角形单元 $\tau$, 其三个顶点 $X_0 :=(x_0,y_0)$, $X_1 :=(x_1,y_1)$ 和 $X_2 :=(x_2,y_2)$ 逆时针排列，且不在同一条直线上，那么向量 $\overrightarrow{X_0 X_1}$ 和 $\overrightarrow{X_0 X_2}$ 是线性无关的。这等价于矩阵
 
 $$
 A = 
@@ -334,7 +357,7 @@ y_0 & y_1 & y_2 \\
 \end{pmatrix}
 $$
 
-非奇异. 
+非奇异。
 又 $|A|\ne 0$,故任给一点 $X:=(x,y)\in\tau$,下面的线性方程组
 
 $$
@@ -361,14 +384,15 @@ $$
 \end{cases}
 $$
 故$\lambda _0 (x_0,y_0)+\lambda _1 (x_1,y_1)+\lambda _2 (x_2,y_2)=(x,y)$,
+从而
 $$
 X=\lambda_0(X) X_0 + \lambda_1(X)X_1 + \lambda_2(X)X_2 
 \text{ 且 } \lambda_0(X) + \lambda_1(X) + \lambda_2(X) = 1. 
 $$
 
-$\lambda_0,\lambda_1,\lambda_2$ 称为点 $X$ 关于点 $X_0,X_1$ 和$X_2$ 的重心坐标. 
+$\lambda_0,\lambda_1,\lambda_2$ 称为点 $X$ 关于点 $X_0,X_1$ 和$X_2$ 的重心坐标。
 
-易知, $\lambda_0, \lambda_1, \lambda_2$ 都是关于 $X$ 的线性函数, 且有
+易知, $\lambda_0, \lambda_1, \lambda_2$ 都是关于 $X$ 的线性函数，且有
 
 \begin{eqnarray*}
 \lambda_0(X_0) = 1,\quad & \lambda_0(X_1) = 0,\quad& \lambda_0(X_2) = 0\\
@@ -416,14 +440,6 @@ $$
 三角形单元上的 $p$ 次基函数公式
 
 给定三角形单元上的一个重心坐标 $(\lambda_0, \lambda_1, \lambda_2)$, 所有 $p\geq 1$ 次基函数的计算公式如下:
-
-$$
-\phi_{m,n,k} = \frac{p^p}{m!n!k!}\prod_{l_0 = 0}^{m - 1}
-(\lambda_0 - \frac{l_0}{p}) \prod_{l_1 = 0}^{n-1}(\lambda_1 -
-\frac{l_1}{p}) \prod_{l_2=0}^{k-1}(\lambda_2 - \frac{l_2}{p})
-$$
-
-即
 $$
 \phi_{m,n,k} =\frac{1}{m!}\prod_{l_0 = 0}^{m - 1}(p\lambda_0 - l_0)\frac{1}{n!}\prod_{l_1 = 0}^{n - 1}(p\lambda_1 - l_1)\frac{1}{k!}\prod_{l_2 = 0}^{k - 1}(p\lambda_2 - l_2).
 $$
@@ -432,10 +448,7 @@ $$
 $$
 \phi_{m,n,k} =R_m (p,\lambda_0)R_n (p,\lambda_1)R_k (p,\lambda_2).
 $$
-其中 $ m\geq 0$, $n\geq 0$, $ k \geq 0$, 且 $m+n+k=p$.一次基函数实际上就是三角形单元的重心坐标函数，这里规定:
-$$
- \prod_{l_i=0}^{-1}(\lambda_i - \frac{l_i}{p}) := 1,\quad i=0, 1, 2
-$$
+其中 $ m\geq 0$, $n\geq 0$, $ k \geq 0$, 且 $m+n+k=p$.
 
 三角形单元上的 $p$ 次基函数面向矩阵计算
 
@@ -449,27 +462,27 @@ $$
 A :=                                                                            
 \begin{pmatrix}  
 1  &  1  & 1 \\
-\lambda_0 & \lambda_1 & \lambda_2\\                                             
-\lambda_0 - \frac{1}{p} & \lambda_1 - \frac{1}{p} & \lambda_2 - \frac{1}{p}\\   
+p\lambda_0 & p\lambda_1 & p\lambda_2\\                                             
+p\lambda_0 - 1 & p\lambda_1 - 1 & p\lambda_2 - 1\\   
 \vdots & \vdots & \vdots \\                                                     
-\lambda_0 - \frac{p - 1}{p} & \lambda_1 - \frac{p - 1}{p} & \lambda_2 - \frac{p - 1}{p}
+p\lambda_0 - (p - 1) & p\lambda_1 - (p - 1) & p\lambda_2 - (p - 1)
 \end{pmatrix}                                                                   
 $$ 
-对 $A$ 的每一列做累乘运算, 并左乘由 $P$ 形成的对角矩阵, 得矩阵:
+对 $A$ 的每一列做累乘运算，并左乘由 $P$ 形成的对角矩阵，得矩阵:
 
 $$
 B = \mathrm{diag}(P)
 \begin{pmatrix}
 1 & 1 & 1 \\
-\lambda_0 & \lambda_1 & \lambda_2\\
-\prod_{l=0}^{1}(\lambda_0 - \frac{l}{p}) & \prod_{l=0}^{1}(\lambda_1 - \frac{l}{p})
-& \prod_{l=0}^{1}(\lambda_2 - \frac{l}{p}) \\
+p\lambda_0 & p\lambda_1 & p\lambda_2\\
+\prod_{l=0}^{1}(p\lambda_0 - l) & \prod_{l=0}^{1}(p\lambda_1 - l)
+& \prod_{l=0}^{1}(p\lambda_2 - l) \\
 \vdots & \vdots & \vdots \\
-\prod_{l=0}^{p-1}(\lambda_0 - \frac{l}{p}) & \prod_{l=0}^{p-1}(\lambda_1 - \frac{l}{p})
-& \prod_{l=0}^{p-1}(\lambda_2 - \frac{l}{p}) 
+\prod_{l=0}^{p-1}(p\lambda_0 - l) & \prod_{l=0}^{p-1}(p\lambda_1 - l)
+& \prod_{l=0}^{p-1}(p\lambda_2 - l) 
 \end{pmatrix}
 $$
-易知, 只需从 $B$ 的每一列中各选择一项相乘(要求三项次数之和为 $p$), 再乘以 $p^p$ 即可得到相应的基函数, 其中取法共有 
+易知，只需从 $B$ 的每一列中各选择一项相乘(要求三项次数之和为 $p$)，即可得到相应的基函数，其中取法共有 
 $$
 n_{dof} = \frac{(p+1)(p+2)}{2}
 $$
@@ -491,6 +504,22 @@ p-2 & 0 & 2 \\
 \end{pmatrix}
 $$
 由 $I$ 可知一共有 $1+2+3+\cdots+(p+1)=\frac{(p+1)(p+2)}{2}$ 种选择。
+
+这里我们将三角形单元的边分成 $2$ 等分，再平行各边连线，得到下图
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{./figures/9.png}
+\caption{}
+\end{figure}
+一个节点对应一个基函数，上图中一共有 $6$ 个节点，因此一共有 $6$ 个基函数，由上面的 $p$ 次基函数计算公式得到三角形单元上的全部 $2$ 次基函数集合$\lbrace \frac{1}{2!}2\lambda_0 (2\lambda_0 -1),\frac{1}{2!}2\lambda_1 (2\lambda_1 -1),\frac{1}{2!}2\lambda_2 (2\lambda_2 -1),(2\lambda_0)(2\lambda_1),(2\lambda_0)(2\lambda_2),(2\lambda_1)(2\lambda_2)\rbrace $.
+
+我们首先看 $X_0$ 对应的基函数 $M$,$M(X_0)=1$,其它点$M$ 等于 $0$.线段 $X_3 X_5$ 对应的是函数 $\lambda _0=0$,$X_1 X_2$ 对应的是函数 $\lambda _0=\frac{1}{2}$,因此$\lambda_0 (X_3), \lambda_0 (X_4), \lambda_0 (X_5)=0$,$\lambda_0 (X_1), \lambda_0 (X_2)=\frac{1}{2}$.因此$M=\frac{1}{2!}2\lambda_0 (2\lambda_0 -1)$.
+
+$X_0 X_5$ 对应的是函数 $\lambda _1=0$,$X_1 X_4$ 对应的是函数 $\lambda _1=\frac{1}{2}$,因此$\lambda_1 (X_0), \lambda_1 (X_2), \lambda_1 (X_5)=0$,$\lambda_1 (X_1), \lambda_1 (X_4)=\frac{1}{2}$.
+
+$X_0 X_3$ 对应的是函数 $\lambda _2=0$,$X_2 X_4$ 对应的是函数 $\lambda _2=\frac{1}{2}$,因此$\lambda_2 (X_0), \lambda_2 (X_1), \lambda_2 (X_3)=0$,$\lambda_2 (X_2), \lambda_2 (X_4)=\frac{1}{2}$.
+
+综上，$X_1$ 对应的基函数是 $(2\lambda_0)(2\lambda_1)$,$X_2$ 对应的基函数是 $(2\lambda_0)(2\lambda_2)$,$X_3$ 对应的基函数是 $\frac{1}{2!}2\lambda_1 (2\lambda_1 -1)$,$X_4$ 对应的基函数是 $(2\lambda_1)(2\lambda_2)$,$X_5$ 对应的基函数是 $\frac{1}{2!}2\lambda_2 (2\lambda_2 -1)$.
 
 要在二维三角形单元中确定以 $p$ 次基函数，需要确定 $\frac{(p+1)(p+2)}{2}$ 个系数，即需要 $\frac{(p+1)(p+2)}{2}$ 个节点，这里我们将三角形单元的边分成 $p$ 等分，再平行各边连线，以 $p=3$ 为例，如下图
 \begin{figure}[H]
@@ -573,12 +602,6 @@ $$
 
 三维情形的基函数表示如下:
 $$
-\phi_{m,n,k,v} = \frac{p^p}{m!n!k!v!}\prod_{l_0 = 0}^{m - 1}
-(\lambda_0 - \frac{l_0}{p}) \prod_{l_1 = 0}^{n-1}(\lambda_1 -
-\frac{l_1}{p}) \prod_{l_2=0}^{k-1}(\lambda_2 - \frac{l_2}{p})\prod_{l_3=0}^{v-1}(\lambda_3 - \frac{l_3}{p}).
-$$
-即
-$$
 \phi_{m,n,k,v} = \frac{1}{m!}\prod_{l_0 = 0}^{m - 1}
 (p\lambda_0 -l_0)\frac{1}{n!}\prod_{l_1 = 0}^{n-1}(p\lambda_1 -
 l_1)\frac{1}{k!}\prod_{l_2=0}^{k-1}(p\lambda_2 -l_2)\frac{1}{v!}\prod_{l_3=0}^{v-1}(p\lambda_3 - l_3).
@@ -590,11 +613,7 @@ $$
 
 
 
-其中 $ m\geq 0$, $n\geq 0$, $ k \geq 0$, $v\geq 0$,  且 $m+n+k+v=p$, 一次基函数实际上就是四面体单元的重心坐标函数，这里规定:
-
-$$
- \prod_{l_i=0}^{-1}(\lambda_i - \frac{l_i}{p}) := 1,\quad i=0, 1, 2, 3
-$$
+其中 $ m\geq 0$, $n\geq 0$, $ k \geq 0$, $v\geq 0$,  且 $m+n+k+v=p$.
 
 构造向量：
 $$
@@ -606,28 +625,28 @@ $$
 A :=                                                                            
 \begin{pmatrix}  
 1  &  1  & 1 & 1\\
-\lambda_0 & \lambda_1 & \lambda_2 & \lambda_3\\                                             
-\lambda_0 - \frac{1}{p} & \lambda_1 - \frac{1}{p} & \lambda_2 - \frac{1}{p} & \lambda_3 - \frac{1}{p}\\   
+p\lambda_0 & p\lambda_1 & p\lambda_2 & p\lambda_3\\                                             
+p\lambda_0 - 1 & p\lambda_1 - 1 & p\lambda_2 - 1 & p\lambda_3 - 1\\   
 \vdots & \vdots & \vdots & \vdots \\                                                     
-\lambda_0 - \frac{p - 1}{p} & \lambda_1 - \frac{p - 1}{p} & \lambda_2 - \frac{p - 1}{p}& \lambda_3 - \frac{p - 1}{p}
+p\lambda_0 - (p - 1) & p\lambda_1 - (p - 1) & p\lambda_2 - (p - 1) & p\lambda_3 - (p - 1)
 \end{pmatrix}                                                                   
 $$ 
 
-对 $A$ 的每一列做累乘运算, 并左乘由 $P$ 形成的对角矩阵, 得矩阵:
+对 $A$ 的每一列做累乘运算，并左乘由 $P$ 形成的对角矩阵，得矩阵:
 
 $$
 B = \mathrm{diag}(P)
 \begin{pmatrix}
 1 & 1 & 1 & 1\\
-\lambda_0 & \lambda_1 & \lambda_2 & \lambda_3\\
-\prod_{l=0}^{1}(\lambda_0 - \frac{l}{p}) & \prod_{l=0}^{1}(\lambda_1 - \frac{l}{p})
-& \prod_{l=0}^{1}(\lambda_2 - \frac{l}{p}) & \prod_{l=0}^{1}(\lambda_3 - \frac{l}{p}) \\
+p\lambda_0 & p\lambda_1 & p\lambda_2 & p\lambda_3\\
+\prod_{l=0}^{1}(p\lambda_0 - l) & \prod_{l=0}^{1}(p\lambda_1 - l)
+& \prod_{l=0}^{1}(p\lambda_2 - l) & \prod_{l=0}^{1}(p\lambda_3 - l) \\
 \vdots & \vdots & \vdots & \vdots \\
-\prod_{l=0}^{p-1}(\lambda_0 - \frac{l}{p}) & \prod_{l=0}^{p-1}(\lambda_1 - \frac{l}{p})
-& \prod_{l=0}^{p-1}(\lambda_2 - \frac{l}{p}) & \prod_{l=0}^{p-1}(\lambda_3 - \frac{l}{p}) 
+\prod_{l=0}^{p-1}(p\lambda_0 -l) & \prod_{l=0}^{p-1}(p\lambda_1 - l)
+& \prod_{l=0}^{p-1}(p\lambda_2 - l) & \prod_{l=0}^{p-1}(p\lambda_3 - l) 
 \end{pmatrix}
 $$
-易知, 只需从 $B$ 的每一列中各选择一项相乘(要求四项次数之和为 $p$), 再乘以 $p^p$ 即可得到相应的基函数, 其中取法共有 
+易知，只需从 $B$ 的每一列中各选择一项相乘(要求四项次数之和为 $p$)，即可得到相应的基函数，其中取法共有 
 
 $$
 n_{dof} = \frac{(p+1)(p+2)(p+3)}{6}
@@ -654,13 +673,75 @@ p-2 & 0 & 0 & 2\\
 \end{pmatrix}
 $$
 由 $I$ 可知一共有 $1+3+6+10+15+21+28+\cdots+(p+1)=\frac{(p+1)(p+2)(p+3)}{6}$ 种选择。
+
 要在三维四面体单元中确定以 $p$ 次基函数，需要确定 $\frac{(p+1)(p+2)(p+3)}{6}$ 个系数，即需要 $\frac{(p+1)(p+2)(p+3)}{6}$ 个节点。
 
 \section{四边形单元}
-给定一个四边形单元 $\tau := A_0 A_1 A_2 A_3$,$A_i=(x_i,y_i),0\leqslant i \leqslant 3$,$P=(u,v)$ 是 $\tau$的中心，存在一个映射 $F:\hat{\tau} \longrightarrow \tau$, 定义如下：
+给定一个四边形单元 $\tau := (X_0, X_1, X_2, X_3)$, 可以建立它与参考单元之间的映射关系
+
 $$
-x=l_0 \xi +u,\quad y=l_1 \eta +v
+A :=
+\begin{pmatrix}
+1 - \xi \\
+\xi
+\end{pmatrix}
+\begin{pmatrix}
+1 - \eta & \eta
+\end{pmatrix}
+= 
+\begin{pmatrix}
+(1-\xi)(1-\eta) & (1-\xi)\eta\\
+\xi(1-\eta) & \xi\eta
+\end{pmatrix}
 $$
+
+$$
+X(\xi, \eta) =
+\begin{pmatrix}
+(1-\xi)(1-\eta) & (1-\xi)\eta & \xi(1-\eta) & 
+\xi\eta
+\end{pmatrix}
+\begin{pmatrix}
+x_0 \\ x_1 \\ x_2 \\ x_3
+\end{pmatrix}=
+A\begin{pmatrix}
+x_0 \\ x_1 \\ x_2 \\ x_3
+\end{pmatrix}
+$$
+
+$$
+\begin{pmatrix}
+\frac{\mathrm d x}{\mathrm d \xi} & \frac{\mathrm d x}{\mathrm d\eta}\\
+\frac{\mathrm d y}{\mathrm d \xi} & \frac{\mathrm d y}{\mathrm d\eta}
+\end{pmatrix}
+=
+\begin{pmatrix}
+(\eta - 1)x_0 -\eta x_1 + (1 - \eta) x_2 + \eta x_3 & (\xi - 1)x_0 + (1 - \xi) x_1  - \xi x_2 + \xi x_3\\
+(\eta - 1)y_0 -\eta y_1 + (1 - \eta) y_2 + \eta y_3 & (\xi - 1)y_0 + (1 - \xi) y_1  - \xi y_2 + \xi y_3
+\end{pmatrix}
+$$
+
+$$
+\begin{pmatrix}
+\frac{\mathrm d x}{\mathrm d \xi} & \frac{\mathrm d x}{\mathrm d\eta}\\
+\frac{\mathrm d y}{\mathrm d \xi} & \frac{\mathrm d y}{\mathrm d\eta}
+\end{pmatrix}
+=
+\begin{pmatrix}
+x_2 - x_0 & x_1 - x_0\\
+y_2 - y_0 & y_1 - y_0
+\end{pmatrix}
++
+\begin{pmatrix}
+x_0 - x_1 - x_2 + x_3\\
+y_0 - y_1 - y_2 + y_3
+\end{pmatrix}
+\begin{pmatrix}
+\eta & \xi
+\end{pmatrix}
+$$
+
+记 $\lambda_0 = 1-x$, $\lambda_1 = x$, 利用上面的方法可以构造 $[0, 1]$ 区间上的一元 $p$ 次基函数
 
 \begin{figure}[H]
 \centering
@@ -668,49 +749,139 @@ $$
 \caption{}
 \end{figure}
 
+
+$$
+\Phi(x) = (\phi_0(x), \phi_1(x), \cdots, \phi_{p}(x))
+$$
+
+节点 $X_0$ 对应的基函数为 $\phi_0(x)$,节点 $X_1$ 对应的基函数为 $\phi_1(x)$,$\cdots$,节点 $X_p$ 对应的基函数为 $\phi_p(x)$.
+
+可以通过 $\Phi(\xi) \times \Phi(\eta)$ 构造 $[0, 1] \times [0, 1]$ 中的 $2p$ 次基函数。
+
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.7]{./figures/6.png}
 \caption{}
 \end{figure}
 
-从而得到 $\hat{A_0}=(1,1),\hat{A_1}=(-1,1),\hat{A_2}=(-1,-1),\hat{A_3}=(1,-1)$, 在标准矩形单元 $\hat{\tau}$上构造插值基函数，然后通过映射 $F$ 的逆映射得到矩形单元 $\tau$ 的插值基函数。
 
-下面构造标准矩形单元 $\hat{\tau}$ 上的一次插值基函数，令
+参考单元上的双 $p$ 次元基函数为 
+
 $$
-\hat{\lambda_0} (\xi,\eta)=a\xi\eta +b\xi +c\eta +d
+\Phi^T(\xi)\Phi(\eta) =
+\begin{pmatrix}
+\phi_0(\xi)\phi_0(\eta) & \phi_0(\xi)\phi_1(\eta) & \cdots & \phi_0(\xi)\phi_p(\eta)\\
+\phi_1(\xi)\phi_0(\eta) & \phi_1(\xi)\phi_1(\eta) & \cdots & \phi_1(\xi)\phi_p(\eta)\\
+\vdots & \vdots & \ddots & \vdots \\
+\phi_p(\xi)\phi_0(\eta) & \phi_p(\xi)\phi_1(\eta) & \cdots & \phi_p(\xi)\phi_p(\eta)
+\end{pmatrix}
 $$
-由 $\hat{\lambda_0}(\hat{A_0})=1,\hat{\lambda_0}(\hat{A_1})=0,\hat{\lambda_0}(\hat{A_2})=0,\hat{\lambda_0}(\hat{A_3})=0$ 可得 $a=b=c=d=\frac{1}{4}$, 从而
+
+梯度的计算公式为
+
 $$
-\hat{\lambda_0} (\xi,\eta)=\xi\eta +\xi +\eta +\frac{1}{4}=\frac{1}{4}(1+\xi)(1+\eta)
+\left(\frac{\mathrm d \Phi^T(\xi)}{\mathrm d \xi}\Phi(\eta), \Phi^T(\xi)\frac{\mathrm d \Phi^T(\eta)}{\mathrm d\eta}\right)
 $$
-同理可得
+
+\section{六面体单元}
+给定一个六面体单元 $\tau := (x_0, x_1, x_2, x_3, x_4, x_5, x_6, x_7)$, 建立它与参考单元的映射关系。
+
+
+记 $\lambda_0 = 1-x$, $\lambda_1 = x$, 利用上面的方法可以构造 $[0, 1]$ 区间上的一元 $p$ 次基函数
 $$
-\hat{\lambda_1} (\xi,\eta)=\frac{1}{4}(1-\xi)(1+\eta),
+\Phi(x) = (\phi_0(x), \phi_1(x), \cdots, \phi_{p}(x))
+$$
+可以通过 $\Phi(\xi) \times \Phi(\eta)\times \Phi(\varepsilon)$ 构造 $[0, 1] \times [0, 1] \times [0, 1]$ 中的 $3p$ 次基函数。
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{./figures/10.png}
+\caption{}
+\end{figure}
+
+点 $(X_i ,X_j ,X_k)$ 对应的基函数为 $\phi_i\phi_j\phi_k$.
+
+\section{矢量有限元法}
+早起有限元方法，用插值节点数值而获得的节点基函数来表示矢量电场或磁场，可能会有伪解出现，因此产生了矢量有限元法。
+这是一种基于单元棱边的有限元法，又称为棱边元法，使用矢量基函数，将自由度赋予棱边而不是单元节点。有限元法可分为节点元法和棱边元法，前面讲的基函数的构造属于节点元法的基函数构造，下面我们讲棱边元法的矢量基函数的构造。
+棱边元的有限元法将未知函数定义在棱边上，也就是取场矢量沿棱边的切向分量与棱边长度的乘积作为未知函数，这样能够保证共用一条棱边的相邻单元的切向向量相等。
+
+在构造高阶矢量元的基函数之前，先定义内移Silvester插值多项式
+$$
+\hat{R}_i (p,L)=R_{i-1}(p,L-1/p)=\begin{cases}
+\frac{1}{(i-1)!}\prod_{k=0}^{i-1} (pL-k), & 2 \leqslant i \leqslant p\\
+1, & i=1
+\end{cases}
+$$
+由定义可以看出，$i$ 阶内移Silvester插值多项式 $\hat{R}_i (p,L)$ 就是插值点内移的 $i-1$ 阶Silvester插值多项式。
+
+有了Silvester插值多项式和内移Silvester插值多项式，便可以构造高阶矢量元。
+
+对于三角形单元而言，其 $p$ 阶矢量基函数为
+$$
+N^1_{ijk}=C^1_{ijk}R_i (p+2,L_1)\hat{R}_j (p+2,L_2)\hat{R}_k (p+2,L_3)N_1,i=0,1,\cdots,p;~j,k=1,2,\cdots,p+1
 $$
 $$
-\hat{\lambda_2} (\xi,\eta)=\frac{1}{4}(1-\xi)(1-\eta),
+N^2_{ijk}=C^2_{ijk}\hat{R}_i (p+2,L_1)R_j (p+2,L_2)\hat{R}_k (p+2,L_3)N_2,j=0,1,\cdots,p;~i,k=1,2,\cdots,p+1
 $$
 $$
-\hat{\lambda_3} (\xi,\eta)=\frac{1}{4}(1+\xi)(1+\eta).
+N^3_{ijk}=C^3_{ijk}\hat{R}_i (p+2,L_1)\hat{R}_j (p+2,L_2)R_k (p+2,L_3)N_3,k=0,1,\cdots,p;~i,j=1,2,\cdots,p+1
 $$
-$F$的逆映射：
+这里 $i+j+k=p+2$,$N_1,N_2,N_3$ 是下列没有归一的边缘元基函数
 $$
-\xi=\frac{x-u}{l_0},\quad \eta=\frac{y-v}{l_1}
-$$
-得到矩形单元 $\tau$ 的一次插值基函数
-$$
-\lambda_0 (x,y)=\frac{(x-x_1)(y-y_3)}{(x_0 -x_1)(y_0 - y_3)},
+N_1=L_2 \nabla L_3-L_3\nabla L_2
 $$
 $$
-\lambda_1 (x,y)=\frac{(x-x_0)(y-y_3)}{(x_1 -x_0)(y_1 - y_3)}, 
+N_2=L_3 \nabla L_1-L_1\nabla L_3
 $$
 $$
-\lambda_2 (x,y)=\frac{(x-x_3)(y-y_0)}{(x_2 -x_3)(y_2 - y_0)}, 
+N_1=L_1 \nabla L_2-L_2\nabla L_1
+$$
+$C^1_{ijk},C^2_{ijk},C^3_{ijk}$ 是归一化系数，以保证基函数 $N^1_{ijk},N^2_{ijk},N^3_{ijk}$ 在插值点处沿 $l_{\beta}$ 方向的切线分量值为 $1$.
+$$
+C^1_{ijk}=\frac{p+2}{p+2-i}l^{ijk}_1
 $$
 $$
-\lambda_3 (x,y)=\frac{(x-x_1)(y-y_0)}{(x_3 -x_1)(y_3 - y_0)}. 
+C^2_{ijk}=\frac{p+2}{p+2-j}l^{ijk}_2
 $$
+$$
+C^3_{ijk}=\frac{p+2}{p+2-k}l^{ijk}_3
+$$
+$l^{ijk}_{\beta}$ 是 $l_{\beta}=|l_{\beta}|$ 在插值点 $(\frac{i}{p+2},\frac{j}{p+2},\frac{k}{p+2})$ 的取值，$\beta=1,2,3$.
+
+
+
+对于四面体单元而言，其 $p$ 阶矢量基函数为
+$$
+N^1_{ijkl}=C^1_{ijkl}\hat{R}_i (p+2,L_1)\hat{R}_j (p+2,L_2){R}_k (p+2,L_3){R}_l (p+2,L_4)N_1,i,j=1,2,\cdots,p+1;~k,l=0,1,\cdots,p
+$$
+其中
+$$
+N_1=L_2 \nabla L_3-L_3 \nabla L_2
+$$
+$$
+C^1_{ijkl}=\frac{p+2}{p+2-i-j}l^(ijkl)_1
+$$
+这里 $l^(ijkl)_1$ 为 $l_1=|l_1|$ 在插值点 $(\frac{i}{p+2},\frac{j}{p+2},\frac{k}{p+2},\frac{l}{p+2})$ 的值，其他的 $N^{\beta}_{ijkl}$,$\beta =2,3,\cdots,6$ 可以类似得出。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
