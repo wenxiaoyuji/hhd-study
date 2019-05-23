@@ -1,0 +1,248 @@
+% !Mode:: "TeX:UTF-8"
+\documentclass[12pt,a4paper]{article}
+\input{../en_preamble.tex}
+\input{../xecjk_preamble.tex}
+
+\title{有限差分法}
+%\author{}
+\date{\chntoday}
+
+\begin{document}
+\maketitle
+有限差分法，用差商代替每一个导数。从某种意义上说，有限差分公式比基于其他公式的方法更能直接地解决偏微分方程的数值解问题。有限差分法的主要缺点是灵活性。
+
+\section{有限差分法}
+在本节中，为了简单起见，我们讨论了单位平方 $\Omega=(0,1)\times (0,1)$ 上的 $Poisson$ 方程。变系数和更复杂的区域将在有限元方法中讨论。此外，我们假设 $u$ 足够光滑，使我们能够自由地使用 $Taylor$ 展式。
+
+给定两个整数 $m,n\ge 2$，我们利用 $(0,1):\lbrace x_i=(i-1)h_x,i=1,\cdots ,m,h_x=1/(m-1)\rbrace,\lbrace y_j=(j-1)h_y,j=1,\cdots ,n,h_y=1/(n-1)\rbrace$ 的两个网格的张量积构造了矩形网格 $\tau_h$,令 $h=max\lbrace h_x,h_y\rbrace$ 表示 $\tau_h$ 的大小，记 $\Omega_h=\lbrace (x_i,y_j)\in \Omega\rbrace$,边界 $\Gamma_h=\lbrace (x_i,y_j)\in \partial\Omega\rbrace$.
+
+我们考虑与 $R^N,N=m\times n$ 同构的离散函数空间 $V_h=\lbrace u_h(x_i,y_j),1\le i\le m,1\le j\le n\rbrace$，用 $u_{i,j}$ 表示 $u_h(x_i,y_j)$.对于连续函数 $u\in C(\Omega)$，插值算子 $I_h:C(\Omega)\rightarrow V_h$ 将 $u$ 映射为离散函数，用 $u_I$ 表示，即 $(u_I)_{i,j}=u(x_i,y_j)$,注意，离散函数的值仅在网格点定义。
+
+类似的定义也适用于一维情况。选择网格大小 $h$ 和 $u\in V_h(0,1)$,在内部节点 $x_j$ 处的离散公式包括：
+
+向后差分：$(D^-u)_j=\frac{u_j-u_{j-1}}{h}$
+
+向前差分：$(D^+u)_j=\frac{u_{j+1}-u_j}{h}$
+
+中心差分：$(D^\pm u)_j=\frac{u_{j+1}-u_{j-1}}{2h}$
+
+二阶中心差分：$(D^2 u)_j=\frac{u_{j+1}-2u_j+u_{j-1}}{h^2}$
+
+利用 $Talyor$ 展式容易证明:
+$$
+(D^-u)_j-u'(x_j)=O(h),~(D^+u)_j-u'(x_j)=O (h)
+$$
+$$
+(D^\pm u)_j-u'(x_j)=O (h^2),~(D^2 u)_j-u'(x_j)=O (h^2)
+$$
+
+我们将使用这些差分公式，特别是第二个中心差分来逼近内部节点上的 $Laplace$ 算子$(x_i,y_j)$：
+$$
+(\Delta _h u)_{i,j}=(D^2_{xx}u)_{i,j}+(D^2_{yy}u)_{i,j}= \frac{u_{i+1,j}-2u_{i,j}+u_{i-1,j}}{h^2_x}+\frac{u_{i,j+1}-2u_{i,j}+u_{i,j-1}}{h^2_y} 
+$$
+它被称为五点格式，因为只涉及五个点。当 $h_x=h_y$ 时，
+\begin{equation}
+-(\Delta _h u)_{i,j}=\frac{4u_{i,j}-u_{i+1,j}-u_{i-1,j}-u_{i,j+1}-u_{i,j-1}}{h^2} 
+\end{equation}
+对于右边的函数 $f$,我们只取节点值，即 $f_{i,j}=(f_I)_{i,j}=f(x_i,y_j)$
+
+求解泊松方程的有限差分法
+\begin{equation}
+-(\Delta _h u)_{i,j}=f(x_i,y_j),1\le i\le m,1\le j\le n
+\end{equation}
+
+让我们给出 $N=m\times n$ 网格的排序，并使用单个索引 $k=1$ 到 $N$,即 $u_k=u_{i(k),j(k)},k\rightarrow (i(k),j(k))$ 
+
+\begin{equation}
+Au=f
+\end{equation}
+$A\in R^{N\times N},u\in R^N,f\in R^N$
+
+\textbf{注1.1}
+网格点可以存在不同的排序。
+
+\section{边界条件}
+我们将讨论如何在有限差分法中处理边界条件。$Dirichlet$ 边界条件相对简单，$Neumann$ 边界条件处理时，需要不存在的点（$ghost$ 点）。
+
+具有 $Dirichlet$ 边界条件的 $Poisson$ 方程
+\begin{equation}
+-\Delta u=f ~in~ \Omega ,~u=g ~on~ \Gamma =\partial\Omega
+\end{equation}
+边界上的值由边界条件给出。即对于 $(x_i,y_j)\in\partial\Omega$,有 $u_{i,j}=g(x_i,y_j)$.有几种方法可以施加 $Dirichlet$ 边界条件。
+
+一种方法是令 $a_{ii}=1,a_{ij}=0,j\ne i$,当 $x_i\in\Gamma$ 时，$f_i=g(x_i)$.
+
+具有 $Neumann$ 边界条件的 $Poisson$ 方程
+$$
+-\Delta u=f ~in~ \Omega ,\frac{\partial u}{\partial\overrightarrow{n}}=g ~ on ~\Omega
+$$
+$f$ 和 $g$ 有一个兼容的条件：
+\begin{equation}
+-\int_{\Omega} f\, \mathrm{d}x=\int_{\Omega} \Delta u\, \mathrm{d}x=\int_{\partial\Omega}\frac{\partial u}{\partial\overrightarrow{n}}\, \mathrm{d}S=\int_{\partial\Omega} g\, \mathrm{d}S
+\end{equation}
+对正常导数的自然近似利用单侧方向导数，例如：
+$$
+\frac{\partial u}{\partial\overrightarrow{n}}(x_1,y_j)=\frac{u_{1,j}-u_{2,j}}{h}+O(h)
+$$
+但这只是一阶近似。为了更准确地处理 $Neumann$ 边界条件，我们引入了区域外和边界旁边的不存在的点（$ghost$ 点）。
+
+我们允许扩展索引 $0\le i,j\le n+1$,然后我们就可以使用中心差分：
+$$
+\frac{\partial u}{\partial\overrightarrow{n}}(x_1,y_j)=\frac{u_{0,j}-u_{2,j}}{2h}+O(h^2)
+$$
+$u_{0,j}$ 没有定义，我们需要把它从等式中消除。这是可能的，因为在边界点$(x_1,y_j)$，我们有两个方程：
+\begin{equation}
+4u_{1,j}-u_{2,j}-u_{0,j}-u_{1,j+1}-u_{1,j-1}=h^2f_{1,j}
+\end{equation}
+
+\begin{equation}
+u_{0,j}-u_{2,j}=2hg_{1,j}
+\end{equation}
+由（$7$）式，我们得到 $u_{0,j}=2hg_{1,j}+u_{2,j}$,将其代入($6$)并乘以 $1/2$，我们在点 $(x_1,y_j)$得到方程：
+$$
+2u_{1,j}-u_{2,j}-0.5u_{1,j+1}-0.5u_{1,j-1}=0.5h^2f_{1,j}+hg_{1,j}
+$$
+为了保持矩阵的对称性。除了四个角点外，我们还可以用同样的方法处理其他边界点。在角点，范数向量也没有很好的定义。我们将利用两个方向导数的近似值。以 $(0,0)$ 为例，我们有
+\begin{equation}
+4u_{1,1}-u_{2,1}-u_{0,1}-u_{1,2}-u{1,0}=h^2f_{1,1}
+\end{equation}
+
+\begin{equation}
+u_{0,1}-u_{2,1}=2hg_{1,1}
+\end{equation}
+
+\begin{equation}
+u_{1,0}-u_{1,2}=2hg_{1,1}
+\end{equation}
+
+因此，我们可以从($9$)和($10$)中求解 $u_{0,1}$ 和 $u_{1,0}$，并将它们带入($8$).同样，为了保持矩阵的对称性，我们将($8$)乘以$1/4$,这给出了角点$(x_1,y_1)$的方程。
+$$
+u_{1,1}-0.5u_{2,1}-0.5u_{1,2}=0.25h^2f_{1,1}+hg_{1,1}
+$$
+类似的方式处理其他角点。
+
+%得到相应的线性方程组
+%$$
+%\textbf{Au}=\textbf{f}
+%$$
+%矩阵 $A$ 仍然是对称的，但只有半定的。$\textbf{A}$ 的核: $\textbf{Au}=0$ 当且仅当 $\textbf{u}=c$.这需要兼容条件($5$)的离散格式：
+%\begin{equation}
+%\sum_{i=1}^N f_i=0
+%\end{equation}
+
+%\section{误差估计}
+%为了分析误差，我们需要把这个问题变成一个正常的空间。有限线性空间 $V_h$ 的范数是最大范数：对于$v\in V_h$,
+%$$
+%\left \| v\right \|_{\infty,\Omega_h}=\max_{1\le i\le n+1,1\le j\le m+1}\lbrace |v_{i,j}|\rbrace
+%$$
+%下标 $h$ 表示这个范数依赖于三角剖分，因为对于不同的 $h$，我们有不同的 $v_{i,j}$.注意，这是 $R^N$ 的 $l^\infty$范数。
+
+%可以证明 $\Delta ^{-1}_h:(V_h,\left \|\cdot\right \|_{\infty,\Omega_h})\rightarrow (V_h,\left \|\cdot\right \|_{\infty,\Omega_h})$ 对 $h$ 是一致稳定的
+
+%\textbf{定理3.1(离散最大值原理)}
+%令 $v\in V_h$ 满足
+%$$
+%\Delta _h v\ge0
+%$
+%那么
+%$$
+%\max_{\Omega_h}v\le\max_{\Gamma_h}v
+%$$
+%等式成立当且仅当 $v$ 是常数。
+
+%证明：假设 $\max_{\Omega_h}v >\max_{\Gamma_h}v$,那么我们可以取一个内部节点 $x_0$,并且在该点达到最大值。设$x_1,x_2,x_3$ 和 $x_4$ 是 $x_0$ 的四个周围点。那么
+%$$
+%4v(x_0)=\sum_{i=1}{4}v(x_i)-h^2\Delta _h v(x_0)\le\sum_{i=1}{4}v(x_i)\le 4v(x_0)
+%$$
+%因此，在 $x_0$ 所有最临近的点处，也是 $x_0$.向内部的临近的点应用相同的参数，等等，然后我们可以断定 $v$是常数，这与假设 $\max_{\Omega_h}v >\max_{\Gamma_h}v$ 矛盾。第二个部分可以通过类似的参数证明。
+
+%\textbf{定理3.2}
+%令 $u_h$ 是下面方程的解
+%\begin{equation}
+%-\Delta_h u_h=f_I ~ at ~\Omega_h\setminus\Gamma_h,~ u_h=g_I ~ at ~ \Gamma_h
+%\end{equation}
+%那么
+%\begin{equation}
+%\left \| u_h\right \|_{\infty,\Omega_h}\le\frac{1}{8}\left \| f_I\right \|_{\infty,\Omega_h\setminus\Gamma_h}+\left \| g_I\right \|_{\Gamma_h,\infty}
+%\end{equation}
+
+%证明：我们引入比较函数，
+%$$
+%\phi=\frac{1}{4}\left[(x-\frac{1}{2})^2+(y-\frac{1}{2})^2\right]
+%$$
+%满足 $\Delta_h\phi_I=1$ 在 $\Omega_h\setminus\Gamma_h$,并且 $0\le\phi\le 1/8$.令 $M=\parallel f_I\parallel _{\infty,\Omega_h\setminus\Gamma_h}$,那么
+%$$
+%\Delta_h(u_h+M\phi_I)=\Delta_h u_h+M\ge 0
+%$$
+%所以，
+%$$
+%\max_{\Omega_h}u_h\le\max_{\Omega_h}(u_h+M\phi_I)\le\max_{\Gamma_h}(u_h+M\phi_I)\le\max_{\Gamma_h}g_I+\frac{1}{8}M
+%$$
+%所以，$u_h$ 由($13$)限定。
+
+%\textbf{推论3.3}
+%设 $u$ 是 $Dirichlet$ 问题($4$)的解，以及离散问题($12$)的解。那么
+%$$
+%\left \| u_I-u_h\right \|_{\infty,\Omega_h}\le\frac{1}{8}\left \|\Delta_h u_I-(\Delta u)_I\right \|_{\infty,\Omega_h\setminus \Gamma_h}
+%$$
+%下一步是研究一致性误差 $\left \|\Delta_h u_I-(\Delta u)_I\right \|_{h,\infty}$ .下面的引理可以很容易地用 $Taylor$ 展式来证明。
+
+%\textbf{引理3.4}
+%如果 $u\in C^4(\Omega)$,那么
+%$$
+%\left \|\Delta_h u_I-(\Delta u)_I\right \|_{\infty,\Omega_h \setminus \Gamma_h}\le\frac{h^2}{6}max\left \{\left \|\frac{\partial ^4u}{\partial x^4}\right \|_{\infty,\Omega},\left \|\frac{\partial ^4u}{\partial y^4}\right \|_{\infty}\right \}
+%$$
+%在以下定理中，我们总结了有限差分方法的收敛性结果。
+
+%\textbf{定理3.5}
+%设 $u$ 是 $Dirichlet$ 问题($4$)的解，以及离散问题($12$)的解。如果 $u\in C^4(\Omega)$,那么
+%$$
+%\left \| u_I-u_h\right \|_{\infty,\Omega_h}\le Ch^2
+%$$
+%常数 $C$
+%$$
+%C=\frac{1}{48}max\left \{\left \|\frac{\partial ^4u}{\partial x^4}\right \|_{\infty,\Omega},\left \|\frac{\partial ^4u}{\partial y^4}\right \|_{\infty}\right \}
+%$$
+%在实际应用中，即使解 $u$ 比 $C^4(\Omega)$ 不光滑，也有二阶收敛性，即要求 $u\in C^4(\Omega)$ ,这一限制来自于逐点估计。在有限元法中，我们将用积分范数来得到正确的函数空间。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\input{test.tex}
+
+%\cite{tam19912d}
+%\bibliography{../ref}
+\end{document}
