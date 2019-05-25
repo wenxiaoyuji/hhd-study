@@ -1,0 +1,220 @@
+% !Mode:: "TeX:UTF-8"
+\documentclass[12pt,a4paper]{article}
+\input{../en_preamble.tex}
+\input{../xecjk_preamble.tex}
+
+\title{有限差分法}
+%\author{}
+\date{\chntoday}
+
+\begin{document}
+
+\section{与有限元法的关系}
+我们将回顾有限元方法，并展示有限元方法与有限体积法之间的密切关系。设 $a(u,v)$ 为双线性形式
+$$
+a(u,v)=\int_{\Omega}^{} (\textbf{k}\nabla u)\cdot v dx
+$$
+线性有限元法是：找到 $u_{L}\in V_{\tau}$ 使得
+$$
+a(u_L,v)=(f,v) ~ for all v\in V_{\tau}
+$$
+对于有限元，试验空间和试验空间是相同的，就是所谓的 $Galerkin$ 方法。
+
+为了看到密切关系，我们现在制定相应的矩阵方程。设 $N(\tau)$ 是 $\tau$ 的内节点集，$N=N(\tau)$,然后 $dim V_B=dim V_{\tau}=N$.可以选择 $V_B$ 的基作为每个 $b_i,i=1,\cdots ,N$ 的特征函数
+
+$$
+\psi _i=\chi _{b_i}(x)=
+\begin{cases}
+1, & x\in b_i \\
+0, & otherwise
+\end{cases}
+$$
+
+线性有限元空间 $V_{\tau}$ 的节点基是标准的帽函数：
+$$
+\phi _i\in V_{\tau},\phi _i(x_j)=\delta_{ij},\forall x_j\in N(\tau),~i=1,\cdots ,N
+$$
+令 $\bar{u}=\sum_{j=1}^N \bar{U}_j\phi_j$,选择 $v=\psi_i,i=1,\cdots ,N$,我们得到一个线性代数方程
+$$
+\bar{A}\bar{U}=\bar{F}
+$$
+
+$$
+\bar{A}_{ij}=-\int_{\partial b_i}^{}(\textbf{k}\nabla \phi_j)\cdot\textbf{n},~\bar{F}_i=\int_{b_i}^{} fdx
+$$
+令 $u_L=\sum_{j=1}^N U_j\phi_j$,选择 $v=\phi_i,i=1,\cdots ,N$,我们得到另外一个线性代数方程
+$$
+AU=F
+$$
+
+$$
+A_{ij}=\int_{\Omega}^{}(\textbf{k}\nabla \phi_j)\cdot\nabla \phi_i,~F_i=\int_{\Omega}^{} f\phi_i dx
+$$
+我们将证明当 $\textbf{K}(x)$ 在每个三角形上是分段常数时，有 $A=\bar{A}$.解向量是 $u_L$ 和 $\bar{u}$ 在顶点处的点值。唯一的区别是计算右手边的方法不同。对于 $FEM$,$F_i=\int_{\omega_i}^{}f\phi_i dx$是顶点的加权平均值。对于 $FVM$,$\bar{F}_i=\int_{b_i}^{}fdx$是控制体积 $b_i$ 的平均值。当我们选择 $A$ 型控制体积时，即选择 $c_{\tau}$ 作为 $\tau$ 的重心，$\bar{F}_i$ 可以被认为是 $F_i$ 的近似值。这种修正使线性 $FVM$的解满足守恒性。值得注意的是，在均匀网格上，三种方法($FDM$、$FEM$ 和 $FVM$ )得到了相同的矩阵。右边是从不同的方法选择的。对于这三种右手边的选择，得到的近似值会收敛到具有相同顺序的相同的解。
+
+\textbf{引理 5.1}
+给定 $R^n$ 中具有 $L$ 面的多面体$\Omega$，令 $|F_i|$ 表示面 $F_i$ 的 $(n-1)$ 测度，并且 $n_i$ 表示第 $i$ 侧的单位外法线，$i=1,\cdots ,N$.那么
+$$
+\sum_{i=1}^L |F_i|\textbf{n}_i=0
+$$
+证明：设 $\left\{e_k\right\}$ 是 $R^n$ 的正交基。然后通过散度定理
+$$
+\sum_{i=1}^L |F_i| e_k\cdot\textbf{n}_i=\int_{\partial\Omega}^{} e_k\cdot\textbf{n}ds=\int_{\Omega}^{}div e_k dx=0
+$$
+下面的定理是非常重要的，即 $FVM$ 和 $FEM$具有刚度矩阵。让我们引入线性空间 $G$ 的同构：通过 $\psi _i\to\phi _i$, $V_B\to V_{\tau}$,那么 $u=\sum_{i=1}^N u_i\psi _i\in V_B,G_u=\sum_{i=1}^N u_i\phi _i\in V_{\tau}$.注意，$u$ 和 $G_u$ 有相同的向量 $U=(u_1,\cdots,u_N)^T$.我们还使用简单的符号 $\bar{u}$ 来表示 $G_u$.
+
+\textbf{定理 5.2}
+假设 $\textbf{K}(x)$ 在每个 $\tau\in T$上是分段常数，$\partial b_i \cap\partial\tau$ 由边的中间点组成，那么
+$$
+a(u,v)=\bar{a}(u,\bar{v}),~\forall u,v\in V_{\tau}
+$$ 
+证明：由于我们假设 $K(x)$是分段常数，我们只需要给出一个三角形上泊松方程的局部刚度。这减少了证明
+$$
+\bar{a}(\lambda_i,G\lambda_j)=a(\lambda_i,\lambda_j)
+$$
+具体来说，我们以 $\lambda_1$，$\lambda_2$ 为例。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\input{test.tex}
+
+%\cite{tam19912d}
+%\bibliography{../ref}
+\end{document}
