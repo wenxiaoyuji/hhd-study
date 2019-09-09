@@ -1,0 +1,848 @@
+% !Mode:: "TeX:UTF-8"
+\documentclass[12pt,a4paper]{article}
+\input{../en_preamble.tex}
+\input{../xecjk_preamble.tex}
+
+\title{线弹性动力学变分原理}
+%\author{}
+\date{\chntoday}
+
+\begin{document}
+\maketitle
+
+为了讨论方便，用小写字母下标 $i,~j$ 表示与各空间坐标方向对应的物理量，如用 $x_i$ 表示 $(x, y, z)$,用 $u_i$ 表示 $(u, v, w)$.
+
+求导记号的缩写约定：
+$$(~)_{,j}=\frac{\partial}{\partial x_j}(~),~u_{i,j}=\frac{\partial u_i}{\partial x_j}$$
+
+$$(~)_{,ij}=\frac{\partial^2 (~)}{\partial x_i\,\partial x_j},~u_{k,ij}=\frac{\partial^2 u_k}{\partial x_i\,\partial x_j}$$
+
+哑指标：在表达式的某一单项式中成对出现的下标，对这种指标应当进行遍历求和。
+
+单项式：由数或字母的积组成的代数式叫做单项式，单独的一个数或一个字母也叫做单项式。
+
+因此线弹性动力学的控制方程可以重写为：
+
+运动方程
+\begin{equation}
+\sigma_{ij,j}+\bar{f}_i=\rho\ddot{u}_i ~~in~V
+\end{equation}
+
+$\sigma_{ij,j}$ 中指标 $j$ 出现了 $2$ 次，需要对指标 $j$ 进行遍历求和。因此，有
+$$
+\sum_{j=1}^3 \sigma_{ij,j}+\bar{f}_i=\rho\ddot{u}_i , ~ i=1,2,3
+$$
+
+应变-位移关系
+\begin{equation}
+\varepsilon_{ij}=\frac{1}{2}(u_{i,j}+u_{j,i})
+\end{equation}
+
+应力-应变关系
+\begin{equation}
+\sigma_{ij}=D_{ijkl}\varepsilon_{kl}
+\end{equation}
+
+边界条件
+\begin{equation}
+\sigma_{ij}n_j=\bar{T}_i ~~on~S_{\sigma}
+\end{equation}
+\begin{equation}
+u_i=\bar{u}_i ~~on~S_u 
+\end{equation}
+
+$\sigma_{ij}n_j$ 中指标 $j$ 出现了 $2$ 次，需要对指标 $j$ 进行遍历求和。因此，有
+$$
+\sum_{j=1}^3 \sigma_{ij}n_j=\bar{T}_i , ~ i=1,2,3
+$$
+
+初始条件
+\begin{equation}
+u_i|_{t=0}=\bar{u}^0_i
+\end{equation}
+\begin{equation}
+\dot{u}_i|_{t=0}=\dot{\bar{u}}^0_i
+\end{equation}
+
+其中 $\sigma_{ij},\varepsilon_{ij}$ 和 $u_i$ 分别为应力张量、应变张量和位移矢量，$\bar{f}_i,\bar{T}_i$ 和 $\bar{u}_i$分别是域 $V$ 中的体力、边界 $S_{\sigma}$ 上的给定面力和边界 $S_u$ 上的给定位移,它们都是时间 $t$ 和空间坐标 $x_i (i = 1, 2, 3)$ 的函数。$\bar{u}^0_i$ 和 $\dot{\bar{u}}^0_i$ 分别为初位移矢量和初速度矢量。
+
+\section{加权余量法}
+对于复杂的实际问题，只能采用数值方法来求其近似解。近似解通常不能精确满足运动方程 $(1)$ 和边界条件 $(4)$,即
+\begin{equation}
+R_i=\sigma_{ij,j}+\bar{f}_i-\rho\ddot{u}_i\ne 0 ~~in~V
+\end{equation}
+\begin{equation}
+\bar{R}_i=\sigma_{ij}n_j-\bar{T}_i\ne 0 ~~on~S_{\sigma}
+\end{equation}
+$R_i$ 和 $\bar{R}_i$ 分别为运动方程 $(1)$ 和边界条件 $(4)$ 的余量。
+
+加权余量法是求解微分方程近似解的一种常用方法，它允许运动方程和边界条件在各点都存在余量，但要求这些余量在 $V$ 中和边界 $S_{\sigma}$ 上的加权积分为零，即要求满足余量方程:
+\begin{equation}
+\int_{V} R_iv_i ~ \mathrm{d}V=0 , ~ i=1,2,3
+\end{equation}
+\begin{equation}
+\int_{S_{\sigma}} \bar{R}_i\bar{v}_i ~ \mathrm{d}S=0 , ~ i=1,2,3
+\end{equation}
+称 $v_i$ 和 $\bar{v}_i$ 分别为定义在 $V$ 内和边界 $S_{\sigma}$ 上的权函数。
+
+余量的分量有 $3$ 个，每个分量的加权积分为 $0$
+
+若积分方程 $(10)$ 和 $(11)$ 对任意权函数 $v_i$ 和 $\bar{v}_i$ 都成立，则 $R_i\equiv 0 ~~in~V,~\bar{R}_i\equiv 0 ~~on~S_{\sigma}$,即微分方程 $(1)$ 在 $V$ 内任一点任一时刻都满足，边界条件 $(4)$ 在边界 $S_{\sigma}$上任一点任一时刻都满足，因此式 $(10) ~ (R_i =0)$ 和式 $(11) ~ (\bar{R}_i =0)$ 是微分方程 $(1)$ 和边界条件 $(4)$的等效积分形式。
+
+一般可将近似解取为一族已知函数的线性组合，即
+\begin{equation}
+u_i=\sum_{I=1}^N \Phi_I a_{iI}
+\end{equation}
+其中 $a_{iI}$ 为待定参数，也就是真正的求解目标，它们由式 $(10)$ 和式 $(11)$ 确定。$\Phi_I$ 为定义在整个求解域上的已知函数，称为试探函数(或基函数、形函数)，它取自完全的函数序列 (即任一函数都可以用此函数序列展开)，并且是线性独立的。当确定 $a_{iI}$ 以后，就可以得到原问题的近似解答。近似函数所取试探函数的项数 $N$ 越多，近似解的精度将越高；若 $N$ 区域无穷，近似解将收敛于精确解。
+
+加权余量法实质上是通过选择合适的待定参数强迫余量在某种平均意义下为零。
+
+任何相互独立的完备函数集都可以作为权函数，选取不同的权函数就得到不同的加权余量法。为了简单起见，在下面的讨论中，假设近似函数精确满足边界条件 (即 $\bar{R}_i = 0$),因此只考虑域内余量。权函数 $v_i$ 可以取为 $N$ 个函数的线性组合，即
+\begin{equation}
+v_i=\sum_{I=1}^N W_I b_{iI}
+\end{equation}
+$b_{iI}$ 为待定系数。将上式代入式 $(10)$ 中，
+$$
+\int_{V} R_i\sum_{I=1}^N W_I b_{iI} ~ \mathrm{d}V=\sum_{I=1}^N\int_{V} R_i W_I b_{iI}=\sum_{I=1}^N b_{iI}\int_{V} R_i W_I=0
+$$
+考虑到待定系数 $b_{iI}$ 的任意性，得
+\begin{equation}
+\int_{V} R_i W_I ~ \mathrm{d}V=0,~~i=1,2,3;~~I=1,2,\cdots ,N
+\end{equation}
+此时，$W_I$ 也是权函数，下面将讨论几种常用的权函数。
+
+\subsection{配点法}
+权函数取为 $Dirac-\delta$函数:
+\begin{equation}
+W_I=\delta(x-x_I),~~I=1,2,\cdots ,N
+\end{equation}
+$$
+\delta(x-x_I)
+=\begin{cases}
+0,~~x\ne x_I \\
+\infty ,~~x=x_I
+\end{cases}
+$$
+将上式代入式 $(14)$ 中，可得 $\int_{V} R_i\delta(x-x_I) ~ \mathrm{d}V=0$,因此，
+\begin{equation}
+R_i(x_I)=0,~~i=1,2,3;~~I=1,2,\cdots ,N
+\end{equation}
+
+这种方法是使余量在 $V$ 内指定的 $N$ 个离散点上为零，这些点称为配点。上式共有 $3N$ 个方程，可以解出 $3N$ 个待定系数 $a_{iI}$.
+配点法只在配点上保证余量为零，不需要作积分计算，所以是加权余量法中最简单的一种，只是其计算精度相对差一些。
+
+\subsection{子域法}
+子域法首先将求解域 $V$ 划分为 $N$ 个子域 $V_I$,划分的子域总数等于待定系数 $a_{iI}$ 的总数，在每个子域内令权函数等于 $1$，在子域之外取权函数为零，也即：
+\begin{equation}
+W_I=\begin{cases}
+1,~~x\in V_I \\
+0,~~x\ne V_I
+\end{cases}
+\end{equation}
+子域法实质是使余量在这 $N$ 个子域 $V_I$ 上的积分为零，即 $\int_{V_I} R_i~ \mathrm{d}V_I=0,~~I=1,2,\cdots ,N$
+
+\subsection{最小二乘法}
+最小二乘法通过调整近似函数中的参数 $a_{iI}$,使余量的均方和为最小，由极值条件有：
+\begin{equation}
+\frac{\partial}{\partial a_{iI}}\int_{V} R^2_i ~ \mathrm{d}V=2\int_{V} R_i\frac{\partial R_i}{\partial a_{iI}} ~ \mathrm{d}V=0
+\end{equation}
+与式 $(14)$ 相比，可知最小二乘法的权函数为
+\begin{equation}
+W_I=\frac{\partial R_i}{\partial a_{iI}},~~I=1,2,\cdots ,N
+\end{equation}
+最小二乘法的实质是使余量最小，这个方法一般计算精度高，但运算较为繁琐。
+
+\subsection{伽辽金法}
+伽辽金法利用近似解的试探函数序列 $\Phi _I$ 作为权函数，即
+\begin{equation}
+W_I=\Phi _I
+\end{equation}
+相应的余量方程为
+\begin{equation}
+\int_{V} R_i\Phi _I ~ \mathrm{d}V=0,~~i=1,2,3;~~I=1,2,\cdots ,N
+\end{equation}
+
+在许多情况下，伽辽金法得到的求解方程的系数矩阵是对称的，因而在用加权余量法建立有限元格式时主要采用伽辽金法。另外当存在相应的泛函时，伽辽金法与变分法往往给出同样的结果。
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{./figures/2.png}
+\caption{}
+\end{figure}
+
+弯曲使梁的任意 $x$ 截面产生弯曲位移：
+
+$(1)$ 扰度 $\omega(x)$ — 截面形心的铅垂位移，即弯曲变形时横截面形心沿与轴线垂直方向的线位移称为挠度；向上为正。
+
+铅垂位移就是指在竖直方向的位移。
+
+$(2)$ 转角 $\theta(x)$ — 截面绕中性轴转过的角度，以逆时针方向为正。
+
+当小变形时，有 $\theta\thickapprox tan\theta =\frac{d\omega}{dx}$
+
+例 $1$ 用各种加权余量法求解下图中的弹性基础梁的挠度。
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{./figures/1.png}
+\caption{}
+\end{figure}
+
+解: 图示弹性基础梁的基本微分方程和边界条件为
+\begin{equation}
+\begin{cases}
+\frac{d^4w}{dx^4}+\alpha w+1=0,~~-1\leqslant x\leqslant 1 \\
+w(-1)=0 \\
+w(1)=0
+\end{cases}
+\end{equation}
+
+上 式 采 用 了 无 量 纲 形 式，其 中 无 量 纲 参 数 $x$ 、$w$ 和 $M$ 应 分 别 乘 上 系 数 $L/2$ 、
+$pL^4/(16EI)$ 和 $pL^2/4$ 才是实际的坐标、挠度和弯矩。参数 $\alpha = kL^4/(16EI)$,$k$ 为基础刚
+度系数，$EI$ 为梁抗弯刚度。
+
+作为一阶近似，把试探函数 $\phi_1$ 取为当 $\alpha = k = 0$ 时的精确解，即 $\phi_1(x)= −\frac{1}{24}(5-x^2)(1−x^2)$.近似解为
+$$
+w_1(x)=\phi_1a_1= −\frac{a_1}{24}(5-x^2)(1−x^2)
+$$
+$a_1$ 为待定参数，也就是求解目标。上式满足边界条件，因此只有域内存在余量。$\frac{d^4 w_1(x)}{dx^4}=-a_1$,把上式代入式 $(22)$ 中，得到微分方程的残差为
+$$
+R_1(x,a_1)=-a_1-\alpha\frac{a_1}{24}(5-x^2)(1−x^2)+1
+$$
+
+$1$. 配点法
+
+这是一维问题，只有一个待定参数，故只需要一个配点。要求在 $x=0$ 处余量为零，即取 $x=0$ 作为配点，因此有
+$$
+R_1(0,a_1)=-a_1-\frac{5\alpha}{24}a_1+1=0
+$$
+得
+$$
+a_1=(1+\frac{5\alpha}{24})^{-1}
+$$
+
+$2$. 子域法
+
+子域总数等于待定参数总数，只有一个待定参数，故子域总数为 $1$.要求余量在区域中的积分为零，即取整个问题域作为子域，因此有
+$$
+\int_{-1}^{1} R_1 ~\mathrm{d}x=\int_{-1}^{1} \left[-a_1-\alpha\frac{a_1}{24}(5-x^2)(1−x^2)+1\right] ~\mathrm{d}x=-2a_1-\frac{4\alpha}{15}a_1+2=0
+$$
+得
+$$
+a_1=(1+\frac{2\alpha}{15})^{-1}
+$$
+
+$3$. 最小二乘法
+
+$$
+\frac{\partial R_1}{\partial a_1}=-1-\frac{\alpha}{24}(5-x^2)(1−x^2)
+$$
+由 $\int_{-1}^{1} R_1\frac{\partial R_1}{\partial a_1}dx=0$ 得
+$$
+a_1=(1+\frac{2\alpha}{15})(1+\frac{4\alpha}{15}+\frac{62\alpha ^2}{2835})^{-1}
+$$
+
+$4$. 伽辽金法
+
+权函数取为 $\phi_1=−\frac{1}{24}(5-x^2)(1−x^2)$,由余量方程 $\int_{-1}^{1} R_1\phi_1dx=0$ 得
+$$
+a_1=(1+\frac{31\alpha}{189})^{-1}
+$$
+
+为了得到更精确的结果，需要进一步改进试探函数，增加新的函数项。
+
+\section{达朗贝尔—拉格朗日原理}
+函数 $y(x)$ 的变分定义为 $\delta y=y_1(x)-y(x)$,其中 $y_1(x)$ 是“靠近” $y(x)$ 的一个函数，即 
+$\delta y$ 是同一自变量 $x$ 处相邻函数的函数值之差，也就是说变分是函数的增量。
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{./figures/3.png}
+\caption{}
+\end{figure}
+
+变分具有以下的性质：
+$$
+\delta (u+w)=\delta u+\delta w
+$$
+$$
+\delta (uw)=w\delta u+u\delta w
+$$
+$$
+\delta (\frac{u}{w})=\frac{w\delta u-u\delta w}{w^2}
+$$
+$$
+\delta\frac{\partial u}{\partial x}=\frac{\partial}{\partial x}\delta u
+$$
+$$
+\delta (dy)=d(\delta y)
+$$
+$$
+\delta\int udS=\int\delta udS
+$$
+
+变分和微分可以交换顺序
+
+变分与微分运算法则相同
+
+变分与微分的区别：$y=y(x)$,$dy$ 与 $\delta y$ 的区别
+
+变分 $\delta y$ 是函数 $y$ 本身形状发生变化而引起的微小变化；而微分 $dy$ 是自变量 $x$ 发生变化而引起的函数的微小变化。
+
+$\textbf{虚位移}$：
+
+虚位移是符合约束条件的无穷小位移。由于任何物理运动都需要经过时间的演进才会有实际的位移，所以称保持时间不变的位移为虚位移。即虚位移是无限小想象的位移。
+
+虚位移要求是微小的位移，即要求在产生虚位移过程中不改变原受力平衡体的力的作用方向与大小，亦即受力平衡体平衡状态不会因产生虚位移而改变。
+
+虚位移用 $\delta u_i$ 表示，这里的$\delta u$是等时变分算子符号，简称变分符号。在虚位移原理中它的运算规则与微分算子“$d$”的运算规则相同。
+
+在符合约束的情况下所能产生的位移称为“可能位移”
+
+~ \\
+
+在定常约束条件下，虚位移和可能位移、实位移的约束方程相同，可以把虚位移视为可能发生却尚未发生的可能位移，实位移是众多虚位移中的一个。但对于非定常系统，约束方程的形式不同。在非定常约束，实位移是众多可能位移中的一个，虚位移不能视为可能位移，实位移也不是众多虚位移中的一个。
+
+
+约束及其分类：
+
+限制质点或质点系运动的条件称为约束，限制条件的数学方程称为约束方程。
+
+$1$. ~ 几何约束和运动约束 
+
+几何约束： ~ 约束只限制质点或质点系在空间的位置
+
+运动约束： ~ 如果约束对于质点或质点系不仅有位移方面的限制，还有速度或角速度方面的限制，这种约束称为运动约束。
+
+$2$. ~ 定常约束和非定常约束
+
+定常约束： ~ 又称稳定约束，不随时间变化的一种约束。即约束方程中不显含时间变量 $t$.
+
+非定常约束： ~ 显含时间变量 $t$ 的约束
+
+例如，$x^2 +y^2 +z^2=l^2$ 是定常约束，$x^2 +y^2 +z^2=(l_0 -ut)^2$ 是非定常约束。
+
+$3$. ~ 完整约束和非完整约束
+
+完整约束： ~ 如果在约束方程中不包含坐标对时间的导数，或者虽然包含坐标对时间的导数，但是它可以积分，转换为有限形式，这种约束称为完整约束。
+
+非完整约束： ~ 如果约束方程中包含坐标对时间的导数，此导数还不能转换为有限形式，这种约束称为非完整约束。
+
+例如，$\frac{dx_0}{dt}-r\frac{d\phi}{dt}=0$ 可以积分为 $x_0-r\phi +b=0$,其中，$b$ 是积分常数；因此是完整约束。
+
+非定常系统：
+
+假若一个系统的任何约束是非定常约束，则称此系统为非定常系统。
+
+非完整系统：
+
+一个系统有任何约束是非完整约束，则称此系统为非完整系统。
+
+~ \\
+
+虚位移与实位移的区别：
+
+$1$. ~~ 虚位移只能是无限小的，而实位移既可以是无限小的，也可以是有限量。
+
+$2$. ~~ 虚位移包括满足约束条件的一切可能有的位移，同一质点的虚位移一般不只一个，而实位移一般只能有一个。
+
+$3$. ~~ 虚位移是假想的，只与约束情况有关，而与作用力及时间无关，与质点的实际运动情况也无关，即使质点系在已知力系作用下处于静止，仍然可以给予各个质点以满足约束条件的虚位移。
+
+由于虚位移与时间的变化无关（某时刻的虚位移并不需要经历时间历程），或者说时间没有改变，所以时间 $t$ 的变分（即时间 $t$ 的增量）$\delta t=0$,因此称 $\delta$ 为等时变分。
+
+虚位移可以表示为 $\delta\vec{u}=\delta x\vec{i}+\delta y\vec{j}+\delta z\vec{k}$,其中 $\delta x,\delta y,\delta z$ 表示虚位移在直角坐标轴上的投影。
+
+$\textbf{虚功}$：
+
+真实力在虚位移上所作的功称为虚功，表达式为
+$$
+\delta W_F=\textbf{F}\cdot\delta\textbf{r}
+$$
+
+现在假设位移分量发生了位移边界条件所容许的微小改变（虚位移），记为 $\delta u_i$.\\
+
+
+利用加权余量法，将权函数取为真实位移的变分 $\delta u_i$,则得运动方程 $(1)$ 和力边界条
+件 $(4)$ 的等效积分形式
+\begin{equation}
+\int_{V}\delta u_i(\sigma_{ij,j}+\bar{f}_i-\rho\ddot{u}_i)dV=0
+\end{equation}
+\begin{equation}
+\int_{S_{\sigma}}\delta u_i(\sigma_{ij}n_j-\bar{T}_i)dS=0
+\end{equation}
+
+式中的积分在 $t$ 瞬时分别遍及整个区域 $V$ 和边界 $S_{\sigma}$.利用分部积分，并考虑到 $\delta u_i|S_u=0$（在 $S_u$ 处位移 $u_i$ 已知，其变分为零），$S=S_{\sigma}\cup S_u$,~$\delta u_{i,j}\sigma_{ij}=\delta\varepsilon_{ij}\sigma_{ij}$,有
+\begin{equation}
+\begin{aligned}
+\int_{V} \delta u_i\sigma_{ij,j}dV & = \int_{V} \left[(\delta u_i\sigma_{ij})_{,j}-\delta u_{i,j}\sigma_{ij}\right]dV \\
+& = \int_{S} \delta u_i\sigma_{ij}n_jdS-\int_{V}\delta\varepsilon_{ij}\sigma_{ij}dV \\
+& = \int_{S_{\sigma}} \delta u_i\sigma_{ij}n_jdS-\int_{V}\delta\varepsilon_{ij}\sigma_{ij}dV
+\end{aligned}
+\end{equation}
+
+将式 $(25)$ 代入式 $(23)$,并引入式 $(24)$,最终得到
+\begin{equation}
+-\int_{V}\delta u_i\rho\ddot{u}_idV-\int_{V}\delta\varepsilon_{ij}\sigma_{ij}dV+\int_{V} \bar{f}_i\delta u_idV+\int_{S_{\sigma}}\bar{T}_i\delta u_idS=0
+\end{equation}
+式中第一项为惯性力系的虚功，第二项为内力系的虚功，最后两项为外力系的虚功。上式即为线弹性动力学的达朗贝尔-拉格朗日原理，它表明力系 (外力、内力、惯性力) 在虚位移 $\delta u_i$ 和虚应变 $\delta\varepsilon_{ij}$ 上所做的虚功和为零。虚位移 $\delta u_i$ 和虚应变 $\delta\varepsilon_{ij}$ 应满足如下条件
+\begin{equation}
+\delta\varepsilon_{ij}=\frac{1}{2}(\delta u_{i,j}+\delta u_{j,i})
+\end{equation}
+\begin{equation}
+\delta u_i|_{S_u}=0
+\end{equation}
+
+在导出达朗贝尔-拉格朗日原理时，未涉及物理方程（应力-应变关系），所以达朗贝尔-拉格朗日原理不仅可以用于线弹性问题，而且可以用于非线性弹性及弹塑性等非线性问题。
+
+如果一个函数及其直至 $n−1$ 阶导数连续，其第 $n$ 阶导数具有有限个不连续点但在域内可积，则将其称为具有 $C_{n−1}$ 阶连续性的函数。具有 $C_{n−1}$ 阶连续性的函数将使包含该函数直至其 $n$ 阶导数的积分项成为可积。
+
+式 $(26)$ 为运动方程 $(1)$ 和边界条件 $(4)$ 的等效积分“弱”形式，它所包含的位移函数 $u_i$ 对坐标导数的最高阶次为 $1$,比式 $(23)$ 降低了一阶。为了使各项可积，式 $(26)$ 中的位移函数 $u_i$ 必须具有 $C_0$ 阶连续性，而式 $(23)$ 中的位移函数必须具有 $C_1$ 阶连续性。可见达朗贝尔-拉格朗日原理降低了对位移函数 $u_i$ 连续性的要求，更便于构造近似解。可以证明，如果试探函数取自完全的函数序列（即具有完备性），并满足连续性要求，则当试探函数的项数不断增加时，近似解将趋近于精确解。
+
+\section{哈密顿原理}
+$1$. ~~ 功
+
+物体在力的作用下发生了位移，则称力在该空间的累积为功。
+
+力是恒力且沿直线运动：
+$$
+W=Fcos\theta\cdot\left|\Delta\overrightarrow{r}\right|=\overrightarrow{F}\cdot\Delta\overrightarrow{r}
+$$
+
+变力做功且沿曲线运动：
+
+将物体的位移“细分”成许多小段，每段可视为方向不变的小位移，小位移上的力可以认为是不变的。
+$$
+dW=Fcos\theta\cdot\left|d\overrightarrow{r}\right|=\overrightarrow{F}\cdot d\overrightarrow{r}
+$$
+$$
+W=\int_{A}^{B} \, \mathrm{d}W=\int_{A}^{B} \overrightarrow{F}\cdot \, \mathrm{d}\overrightarrow{r}
+$$
+称为力 $\overrightarrow{F}$ 沿曲线从 $A$ 到 $B$ 对质点所做的功
+
+三维情况：
+$$
+\overrightarrow{F}=F_x\overrightarrow{i}+F_y\overrightarrow{j}+F_z\overrightarrow{k}
+$$
+$$
+d\overrightarrow{r}=dx\overrightarrow{i}+dy\overrightarrow{j}+dz\overrightarrow{k}
+$$
+$$
+W=\int_{A}^{B} \overrightarrow{F}\cdot\, \mathrm{d}\overrightarrow{r}=\int_{A}^{B} \,(F_xdx+F_ydy+F_zdz) 
+$$
+功的正、负：
+
+当 $0\le\theta < \frac{\pi}{2}$ 时，$dW>0$,力对质点做正功；
+
+当 $\frac{\pi}{2} < \theta\le\pi$ 时，$dW<0$,力对质点做负功；
+
+当 $\theta =\frac{\pi}{2}$ 时，$dW=0$,即$\overrightarrow{F}\perp\overrightarrow{r}$,力对质点不做功。
+
+~ \\
+
+$2$. ~~ 动能
+
+物体由于运动而具有的能量，称为物体的动能。
+
+公式：$E_k=\frac{1}{2}mv^2$
+
+动能是标量，只有大小没有方向。
+
+动能是相对量，因为速度具有相对性，参考系不同速度往往不同，动能也就不同，一般选取地面作为惯性参考系。
+
+动能定理:合外力对物体所做的功，等于物体动能的变化量，即末动能减初动能。
+
+公式：$W=\frac{1}{2}mv_2^2-\frac{1}{2}mv_1^2=E_{k2}-E_{k1}$
+
+其中，$E_{k2}$ 表示物体的末动能，$E_{k1}$ 表示物体的初动能。\\
+
+
+势能：势能是相互作用的物体凭借其相对位置而具有的能量。\\
+
+
+$3$. ~~ 重力势能
+
+重力势能是物体因为重力作用而拥有的能量，或者说物体由于被举高而具有的能量叫做重力势能。
+
+公式：$E_p=mgh$ 
+
+其中 $E_p$ 为重力势能，$g$ 为重力加速度，$h$ 为物体距离参考平面的高度。
+
+由于高度 $h$ 是相对的，因此重力势能的数值也是相对的。我们说某个物体具有重力势能 $mgh$,这是相对于某一个水平面来说的，若把这个水平面的高度取做零，这个水平面称为参考平面，物体位于这个参考平面上时，重力势能为零，因此参考平面也被称为零势能平面。
+
+重力做功与路径无关，只与起点和终点的位置有关。
+
+重力势能与重力做功：
+
+重力做正功，重力势能减少；重力做负功，重力势能增加；可理解为重力做功等于重力势能变化量的负值，即
+$$
+W_G=-\vartriangle E_p=E_{p1}-E_{p2}
+$$
+
+$4$. ~~ 弹性势能
+
+弹性势能是物体因为发生弹性形变而具有的能量。
+
+功是功，能量是能量，做功伴随着能量的变化，功不是能量。
+
+能量既不会凭空产生，也不会凭空消失，它只会从一种形式转化为另一种形式，或者从一个物体转移到其它物体，而能量的总量保持不变。\\
+
+~ \\
+
+将式 $(26)$ 在时间间隔 $t_1$ 到 $t_2$ 之间对时间 $t$ 积分，有
+\begin{equation}
+-\int_{t_1}^{t_2} \int_{V}\delta u_i\rho\ddot{u}_idVdt-\int_{t_1}^{t_2} \int_{V}\delta\varepsilon_{ij}\sigma_{ij}dVdt+\int_{t_1}^{t_2} \int_{V}\bar{f}_i\delta u_idVdt+\int_{t_1}^{t_2} \int_{S_{\sigma}}\bar{T}_i\delta u_idSdt=0
+\end{equation}
+
+对上式第一项进行分部积分，并给定 $u_i$ 在 $t=t_1$ 和 $t=t_2$ 时刻的值 （即令 $\delta u_i|_{t=t_1}=0,~\delta u_i|_{t=t_2}=0$），得
+\begin{equation}
+\begin{align}
+-\int_{t_1}^{t_2} \int_{V}\delta u_i\rho\ddot{u}_idVdt & = -\int_{V} \int_{t_1}^{t_2}\delta u_i\rho\ddot{u}_idtdV \\
+& = -\int_{V} \int_{t_1}^{t_2}\rho\left[\frac{d}{dt}(\delta u_i\dot{u}_i)-\delta\dot{u}_i\dot{u}_i\right]dtdV \\
+& = -\int_{V}\rho(\delta u_i\dot{u}_i)|^{t_2}_{t_1}dV+\int_{V} \int_{t_1}^{t_2}\rho\delta\dot{u}_i\dot{u}_idtdV \\
+& = \int_{t_1}^{t_2} \delta Tdt
+\end{align}
+\end{equation}
+其中 $T$ 为弹性体的动能:
+\begin{equation}
+T=\frac{1}{2}\int_{V}\rho\dot{u}_i\dot{u}_idV
+\end{equation}
+
+$$
+\delta T=\frac{1}{2}\int_{V}\rho(\delta\dot{u}_i)\dot{u}_idV+\frac{1}{2}\int_{V}\rho\dot{u}_i(\delta\dot{u}_i)dV=\int_{V}\rho(\delta\dot{u}_i)\dot{u}_idV
+$$
+
+将式 $(30)$ 代入式 $(29)$ 得到普遍意义下的哈密顿原理:
+\begin{equation}
+\int_{t_1}^{t_2} (\delta T+\delta W)dt=0
+\end{equation}
+式中
+\begin{equation}
+\delta W=-\int_{V}\delta\varepsilon_{ij}\sigma_{ij}dVdt+\int_{V}\bar{f}_i\delta u_idVdt+\int_{S_{\sigma}}\bar{T}_i\delta u_idSdt
+\end{equation}
+为系统内力及外力虚功。式 $(32)$ 表明，对于真实运动，系统的动能变分 $\delta T$ 和内力及外力虚功 $\delta W$ 之和在任一时间间隔内对时间的积分等于零。
+
+粘滞力是由于流体的各流层的流速不同，相邻流层间有相对运动，便在接触面上产生一种相互作用的剪切力，这个力叫做流体的内摩擦力，也称为粘滞力。
+
+考虑粘滞力后，哈密顿原理可以改写为
+\begin{equation}
+\int_{t_1}^{t_2} (\delta T+\delta W+\delta W_{\nu})dt=0
+\end{equation}
+其中 $=\delta W_{\nu}=-\int_{V}\nu\dot{u}_i\delta u_idV$ 为粘滞力 $-\nu\dot{u}_i$ 的虚功。
+
+若系统的外力有势，外力虚功等于外力势能变分的负值，同时考虑到应力应变关系式 $(3)$,则式 $(33)$ 可改写为
+\begin{equation}
+\delta W=-\delta \Pi _P
+\end{equation}
+
+其中
+\begin{equation}
+\Pi _P=\int_{V}\frac{1}{2}D_{ijkl}\varepsilon_{ij}\varepsilon_{kl}dV-\int_{V}\bar{f}_iu_idV-\int_{S_{\sigma}}\bar{T}_iu_idS
+\end{equation}
+是系统的总势能，等于弹性体变形能和外力势能之和。
+
+弹性变形能（应变能）是指在变形过程中，外力所作的功转变为储存于固体内的能量，固体在外力作用下，因变形而储存能量称为变形能或应变能。变形能有弹性变形能与塑性变形能。
+
+利用应变能 $V_{\varepsilon}$ 在数值上等于外力功 $W$,可得在线弹性范围内有
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{./figures/4.png}
+\caption{}
+\end{figure}
+$$
+V_{\varepsilon}=W=\frac{1}{2}F\Delta l
+$$
+可以把应变能统一写成
+$$
+V_{\varepsilon}=W=\frac{1}{2}F\Delta
+$$
+式中，$F$ 为广义力，可以代表一个力，一个力偶，一对力或一对力偶等。$\Delta$ 为广义位移，可以代表一个线位移，一个角位移，一对线位移或一对角位移等。
+
+杆拉伸情形:
+$$
+\frac{1}{2}\int_{0}^{l}EA(\frac{\partial u}{\partial x})^2 dx
+$$
+
+将式 $(35)$ 代入式 $(32)$ 中得
+\begin{equation}
+\int_{t_1}^{t_2}\delta(T-\Pi _P)dt=0
+\end{equation}
+其中，$T-\Pi _P$ 为势能与动能之差
+
+
+
+
+对于完整系统，上式中积分运算和变分运算可以交换顺序，故有
+\begin{equation}
+\delta S=0,~~S=\int_{t_1}^{t_2}(T-\Pi _P)dt
+\end{equation}
+
+式 $(38)$ 表明，完整有势系统在任意时间间隔内满足几何关系 $(2)$ 和给定位移边界条
+件 $(5)$ 的所有可能运动中，真实运动使哈密顿作用量 $S$ 取驻值（一阶变分为零）。
+
+也就是说力学系统从时刻 $t_1$ 到 $t_2$ 的一切可能（约束条件所允许）的运动中，使哈密顿作用量 $S$ 取驻值的运动才是实际发生的运动。
+
+对于完整并且有势能的系统，在给定的起始位置和相同约束的条件下，系统的真实运动对应于哈密顿作用量取驻值。
+
+上面从运动方程和力边界条件出发导出了哈密顿原理，下面由哈密顿原理出发导出运动方程和边界条件，从而证明哈密顿原理与运动方程及力边界条件是等价的。利用分部积分，式 $(37)$ 的第一项可进一步化为
+$$
+\delta\int_{t_1}^{t_2}Tdt=\int_{t_1}^{t_2}\int_{V}\rho\bar{u}_i\delta\bar{u}_idVdt=\int_{V}\rho\int_{t_1}^{t_2}\left[\frac{d}{dt}(\bar{u}_i\delta u_i)-\ddot{u}_i\delta u_i\right]dtdV
+$$
+\begin{equation}
+\delta\int_{t_1}^{t_2}Tdt=\int_{V}\rho(\bar{u}_i\delta u_i)|^{t_2}_{t_1}dV-\int_{t_1}^{t_2}\int_{V}\rho\ddot{u}_i\delta u_idVdt
+\end{equation}
+
+考虑到 $\delta u_i|_{t=t_1}=\delta u_i|_{t=t_2}=0$,上式可简化为
+\begin{equation}
+\delta\int_{t_1}^{t_2}Tdt=-\int_{t_1}^{t_2}\int_{V}\rho\ddot{u}_i\delta u_idVdt
+\end{equation}
+
+对式 $(37)$ 的第二项进行分部积分为
+$$
+-\delta\int_{t_1}^{t_2}\Pi _Pdt=-\int_{t_1}^{t_2}\left(\int_{V}D_{ijkl}\varepsilon_{kl}\delta\varepsilon_{ij}dV-\int_{V}\bar{f}_i\delta u_idV-\int_{S_{\sigma}}\bar{T}_i\delta u_idS\right)dt
+$$
+$$
+-\delta\int_{t_1}^{t_2}\Pi _Pdt=-\int_{t_1}^{t_2}\left(\int_{V}\sigma_{ij}\delta u_{i,j}dV-\int_{V}\bar{f}_i\delta u_idV-\int_{S_{\sigma}}\bar{T}_i\delta u_idS\right)dt
+$$
+\begin{equation}
+-\delta\int_{t_1}^{t_2}\Pi _Pdt=-\int_{t_1}^{t_2}\left(-\int_{V}\sigma_{ij,j}\delta u_idV+\int_{S}\sigma_{ij}n_j\delta u_idS-\int_{V}\bar{f}_i\delta u_idV-\int_{S_{\sigma}}\bar{T}_i\delta u_idS\right)dt
+\end{equation}
+
+考虑到 $S=S_u\cup S_{\sigma}$,~$\delta u_i|_{S_u}=0$,上式可简化为
+\begin{equation}
+-\delta\int_{t_1}^{t_2}\Pi _Pdt=-\int_{t_1}^{t_2}\left(\int_{V}(-\sigma_{ij,j}-\bar{f}_i)\delta u_idV+\int_{S_{\sigma}}(\sigma_{ij}n_j-\bar{T}_i)\delta u_idS\right)dt
+\end{equation}
+
+把以上两式代入哈密顿原理式 $(37)$ 得
+$$
+\int_{t_1}^{t_2}\left(\int_{V}(-\rho\ddot{u}_i+\sigma_{ij,j}+\bar{f}_i)\delta u_idV-\int_{S_{\sigma}}(\sigma_{ij}n_j-\bar{T}_i)\delta u_idS\right)dt=0
+$$
+
+考虑到虚位移 $\delta u_i$ 的任意性，由上式可得
+\begin{equation}
+\sigma_{ij,j}+\bar{f}_i=\rho\ddot{u}_i
+\end{equation}
+\begin{equation}
+\sigma_{ij,j}n_j=\bar{T}_i
+\end{equation}
+
+式 $(43)$ 和式 $(44)$ 称为哈密顿变分原理的欧拉方程和边界条件，它们就是运动方程及力边界条件。可见，对于线弹性动力学问题，原微分方程的等效积分弱形式 $(26)$ 可以进一步转化为泛函（哈密顿作用量 $S$）的驻值问题。这种求解微分方程的方法称为变分原理或变分法，它寻求使泛函取驻值的、满足一定已知边界条件 (在这里是指给定位移边界条件 $(5)$）的未知函数。
+
+这两种形式是等价的，满足微分方程 $(1)$ 和边界条件 $(4)$的函数将使泛函 $S$ 取驻值，而使泛函 $S$ 取驻值的函数正是满足问题的控制方程和边界条件的解答。相应的近似解法 （如里兹法）将近似函数表示成一组试探函数的线性组合（如式 $(12)$ 所示），通过令泛函取驻值来确定这些待定系数，即寻求使泛函取驻值的近似函数。
+
+在推导哈密顿原理式 $(38)$ 时，用到了物理方程 $(3)$,因此哈密顿原理式 $(38)$ 只适用于线弹性问题，而达朗贝尔-拉格朗日原理不但适用于线弹性问题，也适用于非线弹性问题。哈密顿原理中变分的独立场变量是 $u_i$,它是具有附加条件式 $(2)$ 和 $(5)$ 的一类变量变分原理。
+
+与线弹性静力问题的变分原理相比，在动力学中与静力学的虚功原理相对应的是达朗贝尔-拉格朗日原理，与静力学的最小势能原理相对应的是哈密顿原理。同样，还可以为弹性动力学问题导出其他各种变分原理，如广义变分原理,$Hellinger-Reissner$ 变分原理，驻值余能原理以及放松连续性要求的修正变分原理。在所有这些原理中，哈密顿原理是最常用的。
+
+例 $2$ ~~ 用哈密顿原理推导左端固支、右端自由的等截面直杆（如下图所示）的欧拉方程。
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{./figures/6.png}
+\caption{}
+\end{figure}
+
+解: 假定应力在截面上均匀分布，原来垂直于轴线的截面变形后仍保持和轴线垂直，因此可以简化为一维问题。杆内任一点的应变为
+$$
+\varepsilon_x=\frac{\partial u}{\partial x}
+$$
+
+系统的总势能为
+\begin{equation}
+\Pi _P=\int_{V}\frac{1}{2}E\varepsilon^2_xdV-\int_{0}^{l}f(x,t)udx=\int_{0}^{l}\frac{1}{2}EA(\frac{\partial u}{\partial x})^2dx-\int_{0}^{l}f(x,t)udx
+\end{equation}
+$$
+\int_{V}\frac{1}{2}E\varepsilon^2_xdV=\frac{1}{2}\int_{0}^{l}\int_{S}E\varepsilon^2_xdSdx=\frac{1}{2}\int_{0}^{l}E\varepsilon^2_x\left(\int_{S}~dS\right)dx=\frac{1}{2}\int_{0}^{l}EA\varepsilon^2_xdx
+$$
+其中 $A$ 为截面面积。
+
+系统的动能为
+$$
+T=\frac{1}{2}\int_{V}\rho\dot{u}^2dV=\frac{1}{2}\int_{0}^{l}\rho A\dot{u}^2dx
+$$
+
+$$
+\frac{1}{2}\int_{V}\rho\dot{u}^2dV=\frac{1}{2}\int_{0}^{l}\int_{S}\rho\dot{u}^2dSdx=\frac{1}{2}\int_{0}^{l}\rho\dot{u}^2\left(\int_{S}~dS\right)dx
+$$
+
+对势能 $\Pi _P$ 取变分，利用分部积分，得
+$$
+\delta\Pi _P=\int_{0}^{l}EA\frac{\partial u}{\partial x}\delta\frac{\partial u}{\partial x}-\int_{0}^{l}f(x,t)\delta udx=EA\frac{\partial u}{\partial x}\delta u |^l_0-\int_{0}^{l}EA\frac{\partial^2 u}{\partial x^2}\delta udx-\int_{0}^{l}f(x,t)\delta udx
+$$
+$$
+\int_{0}^{l}EA\frac{\partial u}{\partial x}d\delta u=EA\frac{\partial u}{\partial x}\delta u|^l_0-\int_{0}^{l}\delta ud\left(EA\frac{\partial u}{\partial x}\right)=EA\frac{\partial u}{\partial x}\delta u|^l_0-\int_{0}^{l}EA\delta ud\frac{\partial u}{\partial x}
+$$
+
+动能 $T$ 变分后在时间间隔 $t_1$ 到 $t_2$ 之间对 $t$ 积分，利用分部积分并考虑到 $\delta u|_{t=t_1}=\delta u|_{t=t_2}=0$,得
+$$
+\int_{t_1}^{t_2}\delta Tdt=\int_{t_1}^{t_2}\int_{0}^{l}\rho A\dot{u}\delta\dot{u}dxdt=\int_{0}^{l}\left[\rho A\dot{u}\delta u|^{t_2}_{t_1}\right]dx-\int_{t_1}^{t_2}\int_{0}^{l}\rho A\ddot{u}\delta udxdt=-\int_{t_1}^{t_2}\int_{0}^{l}\rho A\ddot{u}\delta udxdt
+$$
+$$
+\int_{t_1}^{t_2}\rho A\dot{u}d\delta u=\rho A\dot{u}\delta u|_{t_1}^{t_2}-\int_{t_1}^{t_2}A\rho\delta ud\dot{u}
+$$
+
+将以上两式代入哈密顿原理式 $(37)$ 得
+$$
+\int_{t_1}^{t_2}\int_{0}^{l}\left[-\rho A\ddot{u}+EA\frac{\partial^2 u}{\partial x^2}+f(x,t)\right]\delta udxdt-\int_{t_1}^{t_2}EA\frac{\partial u}{\partial x}\delta u|_{0}^{l}dt=0
+$$
+
+考虑到虚位移 $\delta u$ 的任意性，上式第一项括号内的表达式必须等于零。另外杆的右截面自由，即 $\delta u|_{x=l}\ne 0$,因此 $EA\frac{\partial u}{\partial x}|_{x=l}$ 必须等于零。杆的左截面固定，即 $u|_{x=0}=0$.故得
+$$
+EA\frac{\partial^2 u}{\partial x^2}=\rho A\ddot{u}+f(x,t), ~~ 0<x<l
+$$
+$$
+u|_{x=0}=0
+$$
+$$
+EA\frac{\partial u}{\partial x}|_{x=l}=0
+$$
+
+欧拉方程是泛函的极值条件的微分表达式，求解泛函的欧拉方程，即可得到使泛函取极值的驻函数，将变分问题转化为微分问题。
+
+例 $3$ ~~ 用哈密顿原理推导伯努利-欧拉等截面悬臂梁的欧拉方程。
+
+解: 设等截面悬臂梁上承受横向分布载荷 $q(x,t)$ 的作用，在伯努利-欧拉（$Bernouli-Euler$）梁理论中，假设变形前垂直于梁中性面的截面，变形后仍保持为平面，且仍垂直于中性面（基尔霍夫假设），如下图所示。在此假设下，梁内任一点 $P$ 的位移为
+$$
+u_P=-z\frac{\partial w}{\partial x}, ~~ w_P=w
+$$
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{./figures/7.png}
+\caption{}
+\end{figure}
+
+$P$ 点的应变为
+$$
+\varepsilon_x=\frac{\partial u_P}{\partial x}=-z\frac{\partial^2 w}{\partial x^2}
+$$
+$$
+\varepsilon_z=\frac{\partial w_P}{\partial z}=0
+$$
+$$
+\gamma_{xz}=\frac{\partial u_P}{\partial x}+\frac{\partial w_P}{\partial z}=0
+$$
+
+可见伯努利-欧拉梁理论忽略了剪切变形。系统的总势能为
+\begin{equation}
+\Pi _P=\int_{V}\frac{1}{2}E\varepsilon^2_xdV-\int_{0}^{l}q(x,t)wdx=\int_{0}^{l}\frac{1}{2}EJ\left(\frac{\partial^2 w}{\partial x^2}\right)^2dx-\int_{0}^{l}q(x,t)wdx
+\end{equation}
+
+其中 $J=\int_{S}z^2dS$ 为梁截面 $S$ 的惯性矩。势能的变分为
+$$
+\delta\Pi _P=\int_{0}^{l}EJ\frac{\partial^2 w}{\partial x^2}\delta\frac{\partial^2 w}{\partial x^2}dx-\int_{0}^{l}q(x,t)\delta wdx
+$$
+$$
+\delta\Pi _P=EJ\frac{\partial^2 w}{\partial x^2}\frac{\partial\delta w}{\partial x}|^l_0-EJ\frac{\partial^3 w}{\partial x^3}\delta w|^l_0+\int_{0}^{l}EJ\frac{\partial^4 w}{\partial x^4}\delta wdx-\int_{0}^{l}q(x,t)\delta wdx
+$$
+$$
+\delta\Pi _P=\int_{0}^{l}\left[EJ\frac{\partial^4 w}{\partial x^4}-q(x,t)\right]\delta wdx+EJ\frac{\partial^2 w}{\partial x^2}\delta\frac{\partial w}{\partial x}|^l_0-EJ\frac{\partial^3 w}{\partial x^3}\delta w|^l_0
+$$
+
+系统的动能为
+$$
+T=\frac{1}{2}\int_{V}\rho\left[\dot{u}^2_P+\dot{w}^2_P\right]dV=\frac{1}{2}\int_{0}^{l}\int_{S}\rho\left[z^2\left(\frac{\partial\dot{w}}{\partial x}\right)^2+\dot{w}^2\right]dSdx
+$$
+$$
+T=\frac{1}{2}\int_{0}^{l}\rho A\dot{w}^2dx+\frac{1}{2}\int_{0}^{l}\rho J\left(\frac{\partial\dot{w}}{\partial x}\right)^2dx
+$$
+$$
+\frac{1}{2}\int_{0}^{l}\int_{S}\rho\dot{w}^2dSdx+\frac{1}{2}\int_{0}^{l}\int_{S}\rho z^2\left(\frac{\partial\dot{w}}{\partial x}\right)^2dSdx=\frac{1}{2}\int_{0}^{l}\rho\dot{w}^2\left(\int_{S}dS\right)dx+\frac{1}{2}\int_{0}^{l}\rho\left(\frac{\partial\dot{w}}{\partial x}\right)^2\left(\int_{S}z^2dS\right)dx
+$$
+
+在伯努利-欧拉梁理论中忽略了转动动能（$T$ 表达式中的第二项）。动能 $T$ 变分后在时间间隔 $t_1$ 到 $t_2$ 之间对 $t$ 积分，利用分部积分并考虑到 $\delta w|_{t=t_1}=\delta w|_{t=t_2}=0$,得
+$$
+\int_{t_1}^{t_2}\delta Tdt=\int_{t_1}^{t_2}\int_{0}^{l}\rho A\dot{w}\delta\dot{w}dxdt=\int_{0}^{l}\left[\rho A\dot{w}\delta w|_{t_1}^{t_2}\right]dx-\int_{t_1}^{t_2}\int_{0}^{l}\rho A\ddot{w}\delta wdxdt=-\int_{t_1}^{t_2}\int_{0}^{l}\rho A\ddot{w}\delta wdxdt
+$$
+$$
+\int_{t_1}^{t_2}\rho A\dot{w}d\delta w=\rho A\dot{w}\delta w|_{t_1}^{t_2}-\int_{t_1}^{t_2}\rho A\delta wd\dot{w}
+$$
+
+将以上两式带入哈密顿原理得
+$$
+\int_{t_1}^{t_2}\int_{0}^{l}\left[-\rho A\ddot{w}-EJ\frac{\partial^4 w}{\partial x^4}+q(x,t)\right]\delta wdxdt-\int_{t_1}^{t_2}EJ\frac{\partial^2 w}{\partial x^2}\delta\frac{\partial w}{\partial x}|_0^ldt+\int_{t_1}^{t_2}EJ\frac{\partial^3 w}{\partial x^3}\delta w|_0^ldt=0
+$$
+
+考虑到虚位移 $\delta w$ 的任意性，上式左端第一项括号中的表达式必须为零。梁的右端完全自由，即 $\delta w|_{x=l}\ne 0,\delta\frac{\partial w}{\partial x}|_{x=l}\ne 0$,因此 $EJ\frac{\partial^3 w}{\partial x^3}|_{x=l}=0,EJ\frac{\partial^2 w}{\partial x^2}|_{x=l}=0$ 必须为零。梁的左端固定，有 $w|_{x=0}=0,\frac{\partial w}{\partial x}|_{x=0}=0$.故得
+$$
+EJ\frac{\partial^4 w}{\partial x^4}+\rho A\frac{\partial^2 w}{\partial t^2}=q(x,t), ~~ 0<x<l
+$$
+$$
+\frac{\partial w}{\partial x}|_{x=0}=0, ~~ w|_{x=0}=0
+$$
+$$
+EJ\frac{\partial^2 w}{\partial x^2}|_{x=l}=0, ~~ EJ\frac{\partial^3 w}{\partial x^3}|_{x=l}=0 
+$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\input{test.tex}
+
+%\cite{tam19912d}
+%\bibliography{../ref}
+\end{document}

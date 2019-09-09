@@ -1,0 +1,206 @@
+% !Mode:: "TeX:UTF-8"
+\documentclass[12pt,a4paper]{article}
+\input{../en_preamble.tex}
+\input{../xecjk_preamble.tex}
+
+\title{线弹性有限元解法}
+%\author{}
+\date{\chntoday}
+
+\begin{document}
+\maketitle
+
+\section{变分}
+
+给定一个向量测试函数空间 $V$,
+$$
+-\int_{\Omega}^{} (\nabla\cdot\boldsymbol{\sigma})\cdot \boldsymbol{v}\, \mathrm{d}x=\int_{\Omega}^{} \boldsymbol{f}\cdot \boldsymbol{v}\, \mathrm{d}x, ~~ v\in V
+$$
+
+因为 $\nabla \cdot\boldsymbol{\sigma}=\begin{bmatrix}
+\frac{\partial\sigma_x}{\partial x}+\frac{\partial\tau_{yx}}{\partial y}+\frac{\partial\tau_{zx}}{\partial z} \\
+\frac{\partial\tau_{xy}}{\partial x}+\frac{\partial\sigma_{y}}{\partial y}+\frac{\partial\tau_{zy}}{\partial z} \\
+\frac{\partial\tau_{xz}}{\partial x}+\frac{\partial\tau_{yz}}{\partial y}+\frac{\partial\sigma_{x}}{\partial z}
+\end{bmatrix}, ~ \boldsymbol{v}=
+\begin{bmatrix}
+v_x \\
+v_y \\
+v_z
+\end{bmatrix}, ~ \boldsymbol{f}=
+\begin{bmatrix}
+f_x \\
+f_y \\
+f_z
+\end{bmatrix}$,所以有
+$$
+-\int_{\Omega}^{} \begin{bmatrix}
+\frac{\partial\sigma_x}{\partial x}+\frac{\partial\tau_{yx}}{\partial y}+\frac{\partial\tau_{zx}}{\partial z} \\
+\frac{\partial\tau_{xy}}{\partial x}+\frac{\partial\sigma_{y}}{\partial y}+\frac{\partial\tau_{zy}}{\partial z} \\
+\frac{\partial\tau_{xz}}{\partial x}+\frac{\partial\tau_{yz}}{\partial y}+\frac{\partial\sigma_{x}}{\partial z}
+\end{bmatrix}\cdot\begin{bmatrix}
+v_x \\
+v_y \\
+v_z
+\end{bmatrix}\, \mathrm{d}x=
+\int_{\Omega}^{} \begin{bmatrix}
+f_x \\
+f_y \\
+f_z
+\end{bmatrix}\cdot \begin{bmatrix}
+v_x \\
+v_y \\
+v_z
+\end{bmatrix}\, \mathrm{d}x, ~~ v\in V
+$$
+因此
+$$
+-\int_{\Omega}^{} (\frac{\partial\sigma_x}{\partial x}+\frac{\partial\tau_{yx}}{\partial y}+\frac{\partial\tau_{zx}}{\partial z})v_x + (\frac{\partial\tau_{xy}}{\partial x}+\frac{\partial\sigma_{y}}{\partial y}+\frac{\partial\tau_{zy}}{\partial z})v_y +(\frac{\partial\tau_{xz}}{\partial x}+\frac{\partial\tau_{yz}}{\partial y}+\frac{\partial\sigma_{x}}{\partial z})v_z \, \mathrm{d}x=
+\int_{\Omega}^{} f_x v_x + f_y v_y +f_z v_z \, \mathrm{d}x
+$$
+分部积分可得
+$$
+-\int_{\Omega}^{}(\nabla\cdot\boldsymbol{\sigma})\cdot\boldsymbol{v}\, \mathrm{d}x=
+\int_{\Omega}^{}\boldsymbol{\sigma}:\nabla\boldsymbol{v} \, \mathrm{d}x-\int_{\partial\Omega}^{} (\boldsymbol{\sigma}\cdot\boldsymbol{n})\cdot\boldsymbol{v} \, \mathrm{d}x
+$$
+从而
+$$
+\int_{\Omega}^{}\boldsymbol{\sigma}:\nabla v \, \mathrm{d}x=\int_{\Omega}^{}\boldsymbol{f}\cdot\boldsymbol{v}\, \mathrm{d}x+\int_{\partial\Omega _g}^{}\boldsymbol{g}\cdot\boldsymbol{v}\, \mathrm{d}x
+$$
+其中 $\boldsymbol{g}=\boldsymbol{\sigma}\cdot\boldsymbol{n}$ 为边界 $\partial\Omega _g$ 的边界条件
+
+$:$ 是两个张量之间的内积，对二维张量来说，就是对应元素相乘再相加。
+
+因为一个对称张量和一个反对称张量的内积为 $0$,
+$$
+(\nabla\boldsymbol{v}-\nabla\boldsymbol{v}^T)^T=\nabla\boldsymbol{v}^T-\nabla\boldsymbol{v}=-(\nabla\boldsymbol{v}-\nabla\boldsymbol{v}^T)
+$$
+即 $\nabla\boldsymbol{v}-\nabla\boldsymbol{v}^T$ 是反对称矩阵，因此
+$$
+\int_{\Omega}^{} \boldsymbol{\sigma}:(\nabla\boldsymbol{v}-\nabla\boldsymbol{v}^T) \, \mathrm{d}x = 0
+$$
+$$
+\int_{\Omega}^{} \boldsymbol{\sigma}:\nabla\boldsymbol{v} \, \mathrm{d}x =\int_{\Omega}^{} \boldsymbol{\sigma}:\nabla\boldsymbol{v}^T \, \mathrm{d}x
+$$
+$$
+\int_{\Omega}^{}\boldsymbol{\sigma}(\boldsymbol{u}):\frac{\nabla\boldsymbol{v}+\nabla\boldsymbol{v}^T}{2} \, \mathrm{d}x=\int_{\Omega}^{}\boldsymbol{f}\cdot\boldsymbol{v}\, \mathrm{d}x+\int_{\partial\Omega _g}^{}\boldsymbol{g}\cdot\boldsymbol{v}\, \mathrm{d}x
+$$
+所以上面的变分形式还可以变为
+$$
+\int_{\Omega}^{}\boldsymbol{\sigma}(\boldsymbol{u}):\boldsymbol{\varepsilon}(\boldsymbol{v}) \, \mathrm{d}x=\int_{\Omega}^{}\boldsymbol{f}\cdot\boldsymbol{v}\, \mathrm{d}x+\int_{\partial\Omega _g}^{}\boldsymbol{g}\cdot\boldsymbol{v}\, \mathrm{d}x
+$$
+
+\section{基函数}
+
+现在我们要把位移的每一个分量用线性函数来表示，其中 $\varphi_1,\varphi_2,\varphi_3,\varphi_4$ 是线性函数。
+$$
+u=u_1\varphi_1+u_2\varphi_2+u_3\varphi_3+u_4\varphi_4
+$$
+$$
+v=v_1\varphi_1+v_2\varphi_2+v_3\varphi_3+v_4\varphi_4
+$$
+$$
+w=w_1\varphi_1+w_2\varphi_2+w_3\varphi_3+w_4\varphi_4
+$$
+即
+$$
+\begin{bmatrix}
+u \\
+v \\
+w
+\end{bmatrix}=\varphi_1\begin{bmatrix}
+u_1 \\
+v_1 \\
+w_1
+\end{bmatrix}+\varphi_2\begin{bmatrix}
+u_2 \\
+v_2 \\
+w_2
+\end{bmatrix}+\varphi_3\begin{bmatrix}
+u_3 \\
+v_3 \\
+w_3
+\end{bmatrix}+\varphi_4\begin{bmatrix}
+u_4 \\
+v_4 \\
+w_4
+\end{bmatrix}
+$$
+$\varphi_1,\varphi_2,\varphi_3,\varphi_4$ 又称为关于点 $\boldsymbol{u}$ 的重心坐标。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\cite{tam19912d}
+%\bibliography{../ref}
+\end{document}
